@@ -1,0 +1,66 @@
+{% extends 'base.html' %} 
+<!-- Title -->
+{% block title %}Subjects{% endblock title %} 
+<!-- Header Text -->
+{% block header-text %}Subjects{% endblock header-text %} 
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="static/css/register.css" />
+<link rel="stylesheet" href="static/css/table.css" />
+{% endblock css %} 
+<!-- Body -->
+{% block body %} 
+<br>
+<form action="/subjects" method="POST">
+  {% csrf_token %}
+  <input type="text" name="subjects" placeholder="Subject" />
+  <button type="submit">Add Subject</button>
+</form>
+
+<div class="defaulters">
+  <div class="card">
+    <div class="card-up">
+      <i class="fas fa-book-open"></i>
+    </div>
+    <h2>Subjects: <span data-target="{{ length }}" class="counter">0</span></h2>
+    <br>
+    <div class="table-outer">
+    <table class="table">
+      <tr>
+        <th>Subjects</th>
+        <th>Delete</th>
+      </tr>
+      {% for subject in subjects %}
+        <tr>
+          <td>{{ subject }}</td>
+          <td style="cursor: pointer;" class="delete" onclick="del('{{ subject.id }}')">DELETE &nbsp; <i class="far fa-times-circle"></i></td>
+          
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+  </div>
+</div>
+
+{% endblock body %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+  function del(id) {
+    
+    $.ajax({
+      url: 'subject-delete',
+      data: {
+        'id': id,
+      },
+      dataType: 'json',
+      success: function(data) {
+        location.reload(true);  
+        
+      }
+    });
+  }
+  
+</script>
+{% endblock js %}

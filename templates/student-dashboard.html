@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Title -->
+    <link rel="icon" href="static/img/icon.png" />
+    <title>Eden Education</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="static/css/style.css" />
+    <link rel="stylesheet" href="static/css/dashboard.css" />
+    <link rel="stylesheet" href="static/css/table.css" />
+    <link rel="stylesheet" href="static/css/search.css" />
+    <link rel="stylesheet" href="static/css/calender.css" />
+    <style>
+      .cal {
+          display: flex;
+          align-items: center;
+          padding: 1rem;
+          flex-wrap: wrap;
+      }
+      .cal input, .cal option, .cal select{
+          font-size: 1rem;
+          padding: 0.5rem;
+          flex-basis: 12rem;
+          margin: .5rem;
+      }
+      .docs {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .docs .docLink {
+        width: 15rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .docLink img {
+        width: 10rem;
+    }
+    </style>
+
+<script>
+  var getDaysInMonth = function(month,year) {
+    // Here January is 1 based
+    //Day 0 is the last day in the previous month
+    return new Date(year, month, 0).getDate();
+    // Here January is 0 based
+    // return new Date(year, month+1, 0).getDate();
+    };
+  const calenderMonth =() => {
+    let days = document.querySelector(".days");
+    let mon = document.querySelector(".mon");
+    let yea = document.querySelector(".yea");
+    var d = new Date();
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    var n = month[d.getMonth()];
+    mon.innerHTML = n;
+    yea.innerHTML =  d.getFullYear();
+
+    totalDays = getDaysInMonth(d.getMonth()+1, d.getFullYear());
+    for (let i = 1; i <= totalDays; i++){
+        days.innerHTML = days.innerHTML += `<li id="${i}">${i}</li>`;
+      // else {
+      //   days.innerHTML = days.innerHTML += `<li><span class="active">${i}</span></li>`;
+      // }
+    }
+  }
+  const absent =(days)=> {
+    var li = document.getElementById(days);
+    console.log(li.innerHTML)
+    li.innerHTML = `<span class="active">${days}</span>`;
+  }
+</script>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    
+
+    <main>
+      <!-- Header -->
+      <header>
+        <!-- Hamburger Menu -->
+        <div class="hamburger">
+          
+          Eden Education
+        </div>
+        <!-- User -->
+        <div class="user" onclick="settingsShow()">
+          <div class="username">{{name}}</div>
+          &nbsp;&nbsp;
+          <i class="fas fa-cog set"></i>
+
+      </header>
+      
+      <div class="main">
+        <!-- Dropdown -->
+      <div class="settings">
+        <ul>
+          <a href="\settings"><li>Settings</li></a>
+          <hr />
+          <a href="\logout"><li>Logout</li></a>
+        </ul>
+      </div>
+    <br>
+
+    <div class="defaulters">
+      <div class="card">
+        <div class="card-up">
+          <i class="fas fa-calendar-week"></i>
+        </div>
+        <h2>Attendence</h2>
+        <br />
+  
+        <div class="month">
+          <ul>
+            
+            <li class="mon">August</li>
+            <span class="yea" style="font-size:18px; color: white;">2017</span>
+          </ul>
+        </div>
+        
+        
+        
+        <ul class="days">
+          
+          
+        </ul>
+      </div>
+    </div>
+
+    <br>
+    <div class="defaulters">
+      <div class="card">
+        <div class="card-up">
+          <i class="fas fa-user-graduate"></i>
+        </div>
+        <h2>Fee Status</h2>
+        <br />
+  
+        <div class="table-outer">
+          <table class="table">
+            <tr class="fixed-header">
+              <th>Month</th>
+              <th>Year</th>
+              <th>Fee Status</th>
+            </tr>
+            {% for f in fee %}
+            <tr>
+              <td>{{f.feeMonth}}</td>
+              <td>{{f.feeYear}}</td>
+              <td>{{f.feeStatus}}</td>
+              
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+      <br>
+    <!-- <div class="defaulters">
+      <div class="card">
+        <div class="card-up">
+          <i class="fas fa-calendar-week  "></i>
+        </div>
+        <h2>Attendence</h2>
+        <br />
+        <div class="cal">
+          
+          <select name="class" id="month" onchange="searchMonth()">
+            <option value="">All Months</option>
+              {% for m in mon %}
+              <option value="{{m}}">{{m}}</option>
+              {% endfor %}
+          </select>
+        </div>
+        <div class="table-outer">
+          <table class="table">
+            <tr class="fixed-header">
+              <th>ID</th>
+              <th>Name</th>
+              <th>Class</th>
+              {% for a in attendenceDate %} 
+              <th>{{a}}</th>
+              {% endfor %}
+            </tr>
+            {% for key, value in attendence.items %}
+            <tr>
+              <td>EE{{key}}</td>
+              {% for k, v in value.items %}
+              <td>{{v}}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div> -->
+      <br>
+   
+
+    <!-- Defaulters -->
+<div class="defaulters">
+  <div class="card">
+    <div class="card-up"  style="background-color: #51ab55;">
+      <i class="fas fa-file-upload"></i>
+    </div>
+    <h2>Documents</h2>
+    <br />
+  
+    <div class="docs">
+        {% for doc in docs %}
+          <a class="docLink" href="/media/{{doc.document}}" download>
+              <img src="/static/img/Acrobat.png" alt="">
+              <p>{{doc.description}}</p>
+          </a>
+        {% endfor %}
+    </div>
+    
+    
+  </div>
+  <script>calenderMonth()</script> 
+  {% for a in attendence %}
+    {% if a.attendence == "Absent" %}
+    <script>absent("{{a.date.day}}")</script> 
+    {% endif %}
+  {% endfor %}
+  
+</div>
+    
+    <!-- Script -->
+    <script src="static/js/app.js"></script>
+    <script src="static/js/search2.js"></script>
+    <!-- Fontawesome -->
+    <script src="static/fontawesome/js/all.js"></script>
+  </body>
+</html>

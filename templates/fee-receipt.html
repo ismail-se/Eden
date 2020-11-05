@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fee Receipt</title>
+    <link rel="stylesheet" href="/static/css/fee-receipt.css" />
+  </head>
+  <style>
+    @media print {
+      html,
+      body {
+        border: 1px solid white;
+        height: 99%;
+        page-break-after: avoid;
+        page-break-before: avoid;
+      }
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script>
+    var i = 0;
+    function getVal(n) {
+      console.log(i);
+      $.ajax({
+        url: "fee-receipt-value",
+        data: {
+          i: i++,
+          n: n,
+        },
+        dataType: "json",
+        success: function (data) {
+          $("." + data.name + "name").html(data.name);
+          $("." + data.name + "class").html(data.class);
+          $("." + data.name + "fees").html(data.fees);
+          $("." + data.name + "fees").html(data.fees);
+          $("." + data.name + "total").html(data.total);
+        },
+      });
+    }
+  </script>
+  <body>
+    {% for n in name %}
+    <div class="main">
+      <img src="/media/{{ header.img }}" alt="" />
+      <div class="data">
+        <div style="position: absolute; left: 200px">{{date}}</div>
+        Date:
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_____________________________
+        <br /><br /><br />
+        <div class="copy">
+          <b><u>Student Copy</u></b>
+        </div>
+        <div class="{{n}}name" style="position: absolute; left: 200px">
+          <script>
+            getVal("name");
+          </script>
+        </div>
+        Student Name: _____________________________ <br /><br /><br />
+        <div class="{{n}}class" style="position: absolute; left: 200px"></div>
+        Class:
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_____________________________
+        <br /><br /><br />
+
+        <table border="3px">
+          <tr>
+            <th width="700px">PARTICULARS</th>
+            <th width="200px">Recieved Amount</th>
+          </tr>
+          <tr height="250px">
+            <td>
+              Monthly Fee
+              <br />
+              <b
+                ><div style="position: absolute; left: 200px">
+                  {% for i in month %}{{i}} &nbsp;&nbsp; {% endfor %}
+                </div></b
+              >
+              <br /><br /><br /><br /><br /><br />
+              In the Account of:
+              <b
+                ><div style="position: absolute; left: 200px">
+                  {{selectFee}}
+                </div></b
+              >
+            </td>
+            <td>
+              <span class="{{n}}fees"></span>
+              <br /><br /><br /><br /><br /><br />
+              <span>{{anotherFee}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td align="right"><b>TOTAL</b></td>
+            <td><span class="{{n}}total"></span></td>
+          </tr>
+        </table>
+        <br /><br />
+        <div class="note">
+          <b>NOTE: Fees once paid will not be refundable or adjustable</b>
+          <div>Stamp __________________________</div>
+        </div>
+      </div>
+      <br /><br /><br />
+      <div class="data">
+        <div style="position: absolute; left: 200px">{{date}}</div>
+        Date:
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_____________________________
+        <br /><br /><br />
+        <div class="copy">
+          <b><u>Eden Education Copy</u></b>
+        </div>
+        <div class="{{n}}name" style="position: absolute; left: 200px">
+          {{name}}
+        </div>
+        Student Name: _____________________________ <br /><br /><br />
+        <div class="{{n}}class" style="position: absolute; left: 200px">
+          {{class}}
+        </div>
+        Class:
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_____________________________
+        <br /><br /><br />
+        <table border="3px">
+          <tr>
+            <th width="700px">PARTICULARS</th>
+            <th width="200px">Recieved Amount</th>
+          </tr>
+          <tr height="250px">
+            <td>
+              Monthly Fee
+              <br />
+              <b
+                ><div style="position: absolute; left: 200px">
+                  {% for i in month %}{{i}} &nbsp;&nbsp; {% endfor %}
+                </div></b
+              >
+              <br /><br /><br /><br /><br /><br />
+              In the Account of:
+              <b
+                ><div style="position: absolute; left: 200px">
+                  {{selectFee}}
+                </div></b
+              >
+            </td>
+            <td>
+              <span class="{{n}}fees"></span>
+              <br /><br /><br /><br /><br /><br />
+              <span>{{anotherFee}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td align="right"><b>TOTAL</b></td>
+            <td><span class="{{n}}total"></span></td>
+          </tr>
+        </table>
+        <br /><br />
+        <div class="note">
+          <b>NOTE: Fees once paid will not be refundable or adjustable</b>
+          <div>Signature __________________________</div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </body>
+</html>

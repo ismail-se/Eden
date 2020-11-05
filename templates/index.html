@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="static/img/icon.png" />
+    <title>Eden Education</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="static/css/login.css" />
+  </head>
+  <body>
+    <main>
+      <div class="cards">
+        <div class="card">
+          <div>
+            <img src="static/img/eden.png" alt="" />
+          </div>
+          <div class="text">
+            Eden Education
+            <span>MANAGEMENT SYSTEM</span>
+          </div>
+        </div>
+        <div class="log-in">
+          <h1>WELCOME BACK</h1>
+          <form method="POST">
+            {% csrf_token %}
+            <div class="input">
+              <div class="icon">
+                <i class="fas fa-user-circle"></i>
+              </div>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Username"
+                autofocus
+                required
+              />
+            </div>
+
+            <div class="input">
+              <div class="icon">
+                <i class="fas fa-key"></i>
+              </div>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                id="password"
+                required
+              />
+              <div class="eye" onclick="showPassword()">
+                <i class="fas fa-eye"></i>
+              </div>
+            </div>
+            
+            {% if messages %}
+              {% for message in messages %}
+                <div class="message">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            <div class="check">
+              <button type="submit">Log In</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+    <footer>
+      Designed & Developed by
+      <a href="https://www.facebook.com/mismailofficial" target="_blank"
+        ><strong>Muhammad Ismail</strong></a
+      >
+    </footer>
+
+    <!-- JS -->
+    <script src="static/js/login.js"></script>
+    <!-- Fontawesome -->
+    <script src="static/fontawesome/js/all.js"></script>
+  </body>
+</html>

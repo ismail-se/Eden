@@ -1,0 +1,77 @@
+// Shadow
+$light-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+$dark-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+  0 7px 10px -5px rgba(255, 152, 0, 0.4);
+
+// Color
+$color-orange: #fc930a;
+$color-green: #51ab55;
+$color-green-light: #85ce88;
+$color-red: #e7403c;
+$color-blue: #12b8cd;
+$color-blue-light: #a1e5ee;
+$color-pink: #f06292;
+$color-pink-light: #e499b2;
+$color-purple: #8892d6;
+$color-back: #3b3e47;
+$color-light-back: #eeeeee;
+
+.main .cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  flex-wrap: wrap;
+
+  a {
+    text-decoration: none;
+  }
+
+  a {
+    position: relative;
+    box-shadow: $light-shadow;
+    text-align: left;
+    padding: 1.5rem;
+    padding-left: 1.7rem;
+    border-radius: 10px;
+    flex: 1;
+    margin: 1.1rem 0.7rem;
+    flex-basis: 240px;
+    height: 130px;
+    line-height: 35px;
+    background-color: $color-blue;
+    color: #ffffff;
+    cursor: pointer;
+
+    .card-up {
+      position: absolute;
+      color: white;
+      background-color: $color-blue-light;
+      display: inline;
+      //   box-shadow: $dark-shadow;
+      justify-content: center;
+      align-items: center;
+      width: 5rem;
+      height: 5rem;
+      font-size: 1.5rem;
+      top: 1.3rem;
+      right: 1rem;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 5rem;
+      transition: all 0.5s ease;
+    }
+  }
+  a:nth-child(2) {
+    background-color: $color-pink;
+    .card-up {
+      background-color: $color-pink-light;
+    }
+  }
+  a:nth-child(3) {
+    background-color: $color-green;
+    .card-up {
+      background-color: $color-green-light;
+    }
+  }
+}

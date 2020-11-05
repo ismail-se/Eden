@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+<!-- Title -->
+{% block title %}Update Teacher{% endblock title %}
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="static/css/register.css" />
+<style>
+  .message {
+    background-color: #51ab55;
+    color: white;
+    padding: 0.5rem;
+    width: 100%;
+    text-align: center;
+  }
+</style>
+{% endblock css %}
+<!-- Header Title -->
+{% block header-text %}Update Teacher{% endblock header-text %}
+<!-- Body -->
+{% block body %}
+<div>
+  <form method="POST" action="/update-teacher">
+    {% if messages %} {% for message in messages %}
+    <div class="message">{{ message }}</div>
+    {% endfor %} {% endif %} {% csrf_token %}
+    <input type="number" name="id" id="id" placeholder="Teacher ID" required />
+    <input type="text" name="name" id="name" placeholder="Name" required />
+    <input
+      type="tel"
+      name="contact"
+      id="contact"
+      placeholder="Contact Number"
+      required
+    />
+    <input type="text" name="salary" id="salary" placeholder="Salary" />
+    <div class="class-subject">
+      <br />
+      <h3>Class</h3>
+      <br />
+      <div id="c" style="display: flex; flex-direction: column">
+        {% for class in classes %}
+        <div>
+          <input
+            type="checkbox"
+            name="class"
+            class="checkbox class"
+            id="c{{class.id}}"
+            value="{{ class }}"
+          /><label for="c{{class.id}}">{{ class }}</label>&nbsp;
+        </div>
+        {% endfor %}
+      </div>
+      <br /><br />
+      <h3>Subjects</h3>
+      <br />
+      <div id="s"> 
+        {% for subject in subjects %}
+        <div>
+          <input
+            type="checkbox"
+            name="subject"
+            id="s{{subject.id}}"
+            class="checkbox subject"
+            value="{{ subject }}"
+          /><label for="s{{subject.id}}">{{ subject }}</label>&nbsp;
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <br />
+    <button type="submit">Update</button>
+  </form>
+</div>
+{% endblock body %} {% comment %} JavaScript {% endcomment %} {% block js %}
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+  $("#id").keyup(function () {
+    var id = $(this).val();
+    var classes;
+    var subjects;
+    var cls = []
+    var sub = []
+
+    $.ajax({
+      url: "tec-update",
+      data: {
+        id: id,
+      },
+      dataType: "json",
+      success: function (data) {
+        $("#name").val(data.name);
+        $("#contact").val(data.contact);
+        $("#salary").val(data.salary);
+        $("#class").val(data.studentClass);
+        classes = JSON.parse(data.classes);
+        subjects = JSON.parse(data.subjects);
+        
+        for(var i = 0; i < classes.length; i++){
+          cls.push(classes[i]["fields"]["classes"]);
+        }
+        for(var i = 0; i < subjects.length; i++){
+          sub.push(subjects[i]["fields"]["subject"]);
+        }
+        
+        c = $("#c").find(".class");
+        s = $("#s").find(".subject");
+
+        for (var i = 0; i < c.length; i++){
+          var r = c[i].defaultValue;
+          for (var j = 0; j < cls.length; j++){   
+            if (r == cls[j]){
+              var id = c[i].id;
+              $("#"+id).prop("checked", true);
+            }
+          }
+        }
+
+        for (var i = 0; i < s.length; i++){
+          var r = s[i].defaultValue;
+          for (var j = 0; j < sub.length; j++){   
+            if (r == sub[j]){
+              var id = s[i].id;
+              $("#"+id).prop("checked", true);
+            }
+          }
+        }
+      },
+    });
+  });
+</script>
+{% endblock js %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %} {% block title %}Import Students{% endblock title %}
+<!-- hgfh -->
+{% block header-text %}Import Students from csv{% endblock header-text %}
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="static/css/dashboard.css" />
+<link rel="stylesheet" href="static/css/table.css" />
+<style>
+    .main{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    input {
+        border: 2px solid black;
+        padding: 10px;
+    }
+    label{
+        display: none;
+    }
+    button{
+        margin-top: 2rem;
+        padding: 0.8rem 2rem;
+        border: none;
+        background-color: #51ab55;
+        font-size: 1.1rem;
+        color: white;
+    }
+    .docs {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .docs .docLink {
+        width: 15rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .docLink img {
+        width: 10rem;
+    }
+    .da {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+</style>{% endblock css %}
+<!-- Body -->
+{% block body %}
+<!-- Cards -->
+<div class="cards">
+    <form action="/import-csv" method="POST" enctype= "multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+        
+    </form>
+    </div>
+    
+  </div>
+{% endblock %}

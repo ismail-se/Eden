@@ -1,0 +1,121 @@
+<!-- Extending Base file -->
+{% extends 'base.html' %}
+<!-- Title -->
+{% block title %}Add Attendence{% endblock title %}
+<!-- Heading -->
+{% block header-text %}Add Attendence{% endblock header-text %}
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="static/css/table.css" />
+<link rel="stylesheet" href="static/css/dashboard.css" />
+<style>
+    .cal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        flex-wrap: wrap;
+    }
+    .cal input, .cal option, .cal select{
+        font-size: 1rem;
+        padding: 0.5rem;
+        flex-basis: 10rem;
+    }
+    @media screen and (max-width: 470px){
+        .cal {
+            justify-content: center;
+        }
+        .cal input{
+            margin: .5rem;
+        }
+    }
+</style>
+
+
+{% endblock css %}
+
+<!-- Body -->
+{% block body %}
+<br>
+<form action="/add-attendence" method="POST">
+  {% csrf_token %}
+<div class="defaulters">
+    <div class="card">
+      <div class="card-up">
+        <i class="fas fa-calendar-week  "></i>
+      </div>
+      <h2>Attendence</h2>
+      <button type="submit" class="download">Save Attendence</button>
+      <br />
+      <div class="cal">
+        <select name="class" id="class" onchange="getAtt()">
+            {% for class in classes %}
+            <option value="{{class.id}}">{{class}}</option>
+            {% endfor %}
+        </select>
+        <input type="date" id="date" name="date">
+      </div>
+      
+        <div class="table-outer">
+          <table class="table">
+            
+            
+          </table>
+        </div>
+      
+    </div>
+  </div>
+</form>
+{% endblock body %}
+
+{% block js %}
+<script>
+    let dateInput = document.querySelector("#date");
+    var date = new Date();
+    dateInput.value = date.getFullYear().toString() + '-' + (date.getMonth()+1).toString().padStart(2,0) + '-' + date.getDate().toString().padStart(2,0);
+</script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+    function getAtt(){
+        var c = document.getElementById('class').value;
+        var table = $('.table')
+        table.html( `
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Present</th>
+            <th>Absent</th>
+            <th>Leave</th>
+          </tr>
+        `);
+        $.ajax({
+        url: 'change-attendence',
+        data: {
+          class: c,
+        },
+        dataType: 'json',
+        success: function(data) {
+          for(let i=0; i < data.id.length; i++){
+            table.html( table.html() + `
+            <tr>
+              <td>EE${data.id[i]}</td>
+              <td>${data.name[i]}</td>
+              <td><input type="radio" name="${data.id[i]}" id="${data.id[i]}1" value="Present" class="selected"> <label for="${data.id[i]}1">Present</label></td>
+              <td><input type="radio" name="${data.id[i]}" id="${data.id[i]}2" value="Absent"> <label for="${data.id[i]}2">Absent</label></td>
+              <td><input type="radio" name="${data.id[i]}" id="${data.id[i]}3" value="Leave"> <label for="${data.id[i]}3">Leave</label></td>
+              
+            </tr>
+          `);
+          
+          }
+          $('.table').find('.selected').prop("checked", true);
+            
+        }
+      });
+    }
+
+    getAtt();
+      
+    
+</script>
+{% endblock js %}

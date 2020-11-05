@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+<!-- Title -->
+{% block title %}Update Student{% endblock title %}
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="static/css/register.css" />
+<style>
+  .message {
+    background-color: #51ab55;
+    color: white;
+    padding: 0.5rem;
+    width: 100%;
+    text-align: center;
+  }
+</style>
+{% endblock css %}
+<!-- Header Title -->
+{% block header-text %}Update Student{% endblock header-text %}
+<!-- Body -->
+{% block body %}
+<div class="custom-select">
+  <form method="POST" action="/update-student">
+    {% if messages %}
+              {% for message in messages %}
+                <div class="message">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+    {% csrf_token %}
+    <div class="family">
+      <div class="ed">EE -</div>
+      <input type="number" name="id" placeholder="Student ID" id="id" required />
+    </div>
+    <div class="family">
+      <div class="ed">ED -</div>
+      <input type="number" name="family" placeholder="Family Number" id="family" required />
+    </div>
+    <input type="text" name="name" id="name" placeholder="Name" required />
+    <input type="text" name="fname" id="fname" placeholder="Father Name" required />
+    <input type="text" name="username" id="username" placeholder="Username" required />
+    <p id="exist"></p>
+    <input type="text" name="password" id="password" placeholder="Password" />
+    <div class="custom-select">
+      <label for="class">Class</label>
+      <select name="class" id="class" title="class">
+        {% for class in classes %}
+        <option value="{{ class.id }}" name="{{ class }}">{{ class }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <input type="text" name="section" id="section" placeholder="Section (Optional)" />
+    <input type="text" name="fees" id="fees" placeholder="Fees" />
+    <input type="tel" name="contact" id="contact" placeholder="Contact Number (Optional)" />
+    <input type="text" name="address" id="address" placeholder="Address (Optional)" />
+    <select name="status" id="status" title="status">
+      <option value="Active" name="active">Active</option>
+      <option value="Left" name="left">Left</option>
+    </select>
+    <button type="submit">Update</button>
+  </form>
+</div>
+{% endblock body %}
+
+{% comment %} JavaScript {% endcomment %}
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+  $("#id").keyup(function () {
+      var family = $(this).val();
+
+      $.ajax({
+        url: 'std-update',
+        data: {
+          'family': family,
+        },
+        dataType: 'json',
+        success: function(data) {
+            $("#family").val(data.family); 
+            $("#name").val(data.name); 
+            $("#fname").val(data.fname); 
+            $("#username").val(data.username); 
+            $("#fees").val(data.fees); 
+            // $("#class option:selected").str();
+            $("#class option:selected").text(data.studentClass);
+           
+            $("#section").val(data.section); 
+            $("#contact").val(data.contact); 
+            $("#address").val(data.address); 
+          
+        }
+      });
+    });
+    
+    $("#username").keyup(function () {
+    var username = $(this).val();
+
+    $.ajax({
+      url: "username-check",
+      data: {
+        username: username,
+      },
+      dataType: "json",
+      success: function (data) {
+        console.log(data.flag);
+        if (data.flag == 0) {
+          $("#exist").html("This username already exist.");
+        } else {
+          $("#exist").html("");
+        }
+      },
+    });
+  });
+  
+</script>
+{% endblock js  %}

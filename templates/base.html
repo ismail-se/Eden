@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Title -->
+    <link rel="icon" href="static/img/icon.png" />
+    <title>{% block title %}{% endblock title %} | Eden Education</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="static/css/style.css" />
+    
+    {% block css %}{% endblock css %}
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <aside class="hide">
+      <!-- Logo -->
+      <a href="/home">
+        <div class="logo">
+          <!-- <img src="static/img/eden.png" alt="Eden Education"> -->
+          EDEN EDUCATION
+        </div>
+      </a>
+      
+
+      <ul>
+        <li>
+          <a href="/dashboard"
+            ><i class="fas fa-columns fa-2x"></i>
+            <p>Dashboard</p></a
+          >
+        </li>
+        <li>
+          <a href="/students"
+            ><i class="fas fa-user-graduate fa-2x"></i>
+            <p>Students</p></a
+          >
+        </li>
+        <li>
+          <a href="/teachers"
+            ><i class="fas fa-user fa-2x"></i>
+            <p>Teachers</p></a
+          >
+        </li>
+        <li>
+          <a href="/classes"
+            ><i class="fas fa-chalkboard fa-2x"></i>
+            <p>Classes</p></a
+          >
+        </li>
+        <li>
+          <a href="/subjects"
+            ><i class="fas fa-book fa-2x"></i>
+            <p>Subjects</p></a
+          >
+        </li>
+        <li>
+          <a href="/fees"
+            ><i class="fas fa-money-check-alt fa-2x"></i>
+            <p>Fees</p></a
+          >
+        </li>
+        <li>
+          <a href="/attendence"
+            ><i class="fas fa-calendar-week fa-2x"></i>
+            <p>Attendence</p></a
+          >
+        </li>
+        <li>
+          <a href="/income"
+            ><i class="fas fa-wallet fa-2x"></i>
+            <p>Other Income</p></a
+          >
+        </li>
+        <li>
+          <a href="/expense"
+            ><i class="fas fa-receipt fa-2x"></i>
+            <p>Expense</p></a
+          >
+        </li>
+        <li>
+          <a href="/reports"
+            ><i class="fas fa-file-signature fa-2x"></i>
+            <p>Reports</p></a
+          >
+        </li>
+        <li>
+          <a href="/documents"
+            ><i class="fas fa-file-upload fa-2x"></i>
+            <p>Documents</p></a
+          >
+        </li>
+        <li>
+          <a href="/import-csv"
+            ><i class="fas fa-file-upload fa-2x"></i>
+            <p>Import Students from CSV</p></a
+          >
+        </li>
+        <li>
+          <a href="/documents"
+            ><i class="fas fa-file-upload fa-2x"></i>
+            <p>Import/Export DB</p></a
+          >
+        </li>
+
+      </ul>
+    </aside>
+
+    <main>
+      <!-- Header -->
+      <header>
+        <!-- Hamburger Menu -->
+        <div class="hamburger">
+          <a href="javascript:void(0);" class="icon" onclick="sidebar()">
+            <i class="fa fa-bars"></i>
+          </a>
+          &nbsp;&nbsp;&nbsp;{% block header-text %}{% endblock header-text %}
+        </div>
+        <!-- User -->
+        <div class="user" onclick="settingsShow()">
+          <div class="username">Admin</div>
+          &nbsp;&nbsp;
+          <i class="fas fa-cog set"></i>
+
+      </header>
+      
+      <div class="main">
+        <!-- Dropdown -->
+      <div class="settings">
+        <ul>
+          <a href="\settings"><li>Settings</li></a>
+          <hr />
+          <a href="\logout"><li>Logout</li></a>
+        </ul>
+      </div>
+    
+      {% block body %}{% endblock body %}
+      
+
+    
+    {% block js %}{% endblock js %}
+
+    <!-- Script -->
+    <script src="static/js/app.js"></script>
+    <!-- Fontawesome -->
+    <script src="static/fontawesome/js/all.js"></script>
+  </body>
+</html>

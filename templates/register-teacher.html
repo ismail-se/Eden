@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+<!-- Title -->
+{% block title %}Register Teacher{% endblock title %}
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="static/css/register.css" />
+<style>
+  .message {
+    background-color: #51ab55;
+    color: white;
+    padding: 0.5rem;
+    width: 100%;
+    text-align: center;
+  }
+</style>
+{% endblock css %}
+<!-- Header Title -->
+{% block header-text %}Register Teacher{% endblock header-text %}
+<!-- Body -->
+{% block body %}
+<div>
+  <form method="POST" action="/register-teacher">
+    {% if messages %}
+              {% for message in messages %}
+                <div class="message">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Name" required />
+    <input type="tel" name="contact" placeholder="Contact Number" required />
+    <input type="text" name="salary" placeholder="Salary" />
+    <div class="class-subject">
+      <br>
+      <h3>Class</h3>
+      <br>
+      <div style="display: flex; flex-direction: column;">
+        {% for class in classes %}
+        <div>
+          <input type="checkbox" name="class" class="checkbox" id="c{{class.id}}" value="{{ class }}"><label for="c{{class.id}}">{{ class }}</label>&nbsp;
+        </div>
+      {% endfor %}
+      </div>
+      <br><br>
+      <h3>Subjects</h3>
+      <br>
+      <div>
+        {% for subject in subjects %}
+        <div>
+          <input type="checkbox" name="subject" id="s{{subject.id}}" class="checkbox"  value="{{ subject }}"><label for="s{{subject.id}}">{{ subject }}</label>&nbsp;
+        </div>
+    {% endfor %}
+      </div>
+    </div>
+    <br>
+    <button type="submit">Register</button>
+  </form>
+</div>
+{% endblock body %}

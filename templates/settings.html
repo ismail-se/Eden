@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+<!-- Title -->
+{% block title %}Settings{% endblock title %}
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="static/css/register.css" />
+{% endblock css %}
+<!-- header-text -->
+{% block header-text %}Settings{% endblock header-text %}
+<!-- Body -->
+{% block body %}
+<div class="register">
+  <form method="POST" action="/settings">
+    {% csrf_token %}
+    <input
+      type="text"
+      name="username"
+      id="username"
+      placeholder="New Username"
+      required
+    />
+    <p id="exist"></p>
+    <input
+      type="password"
+      name="password"
+      id="password"
+      placeholder="New Password"
+      required
+    />
+    <input
+      type="password"
+      name="repeatPassword"
+      id="repeatPassword"
+      placeholder="Repeat Password"
+      onkeyup="validate()"
+      required
+    />
+    <div id="notMatch" style="display: none">
+      Your Password and Repeat Password did not match
+    </div>
+    <button
+      id="submit"
+      type="submit"
+      style="background-color: gray; cursor: pointer"
+    >
+      Update Username or Password
+    </button>
+  </form>
+  {% endblock body %}
+  <!-- Javascript -->
+  {% block js %}
+  <script>
+    function validate() {
+      pass = document.querySelector("#password");
+      repPass = document.querySelector("#repeatPassword");
+      notMatch = document.querySelector("#notMatch");
+      button = document.querySelector("#submit");
+
+      if (pass.value !== repPass.value) {
+        notMatch.style.display = "block";
+        button.disabled = true;
+      } else {
+        button.disabled = false;
+        button.style.backgroundColor = "black";
+        notMatch.style.display = "none";
+      }
+    }
+  </script>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script>
+    $("#username").keyup(function () {
+      var username = $(this).val();
+      var button = $("#submit");
+
+      $.ajax({
+        url: "username-check",
+        data: {
+          username: username,
+        },
+        dataType: "json",
+        success: function (data) {
+          console.log(data.flag);
+          if (data.flag == 0) {
+            $("#exist").html("This username already exist.");
+            button.attr("disabled", true);
+          } else {
+            $("#exist").html("");
+            button.attr("disabled", false);
+          }
+        },
+      });
+    });
+  </script>
+  {% endblock js %}
+</div>

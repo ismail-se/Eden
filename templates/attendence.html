@@ -1,0 +1,102 @@
+<!-- Extending Base file -->
+{% extends 'base.html' %}
+<!-- Title -->
+{% block title %}Attendence{% endblock title %}
+<!-- Heading -->
+{% block header-text %}Attendence{% endblock header-text %}
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="static/css/students.css" />
+<link rel="stylesheet" href="static/css/table.css" />
+
+<style>
+  .cal {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      flex-wrap: wrap;
+  }
+  .cal input, .cal option, .cal select{
+      font-size: 1rem;
+      padding: 0.5rem;
+      flex-basis: 12rem;
+      margin: .5rem;
+  }
+  .fixed-header {
+    position: sticky;
+    top: 0;
+  }
+  @media screen and (max-width: 470px){
+      .cal {
+          justify-content: center;
+      }
+      .cal input{
+         
+      }
+  }
+</style>
+
+{% endblock css %}
+
+{% block body %}
+<div class="cards">
+    <a href="/add-attendence">
+      <div class="card">
+        <div class="card-up">
+          <i class="fas fa-calendar-week"></i>
+        </div>
+        <h2>ADD<br />ATTENDENCE</h2>
+      </div>
+    </a>
+    
+  </div>
+
+  <div class="defaulters">
+    <div class="card">
+      <div class="card-up">
+        <i class="fas fa-calendar-week  "></i>
+      </div>
+      <h2>Attendence</h2>
+      <br />
+      <div class="cal">
+        <select name="class" id="class" onchange="searchClass()">
+          <option value="">All Classes</option>
+            {% for class in classes %}
+            <option value="{{class}}">{{class}}</option>
+            {% endfor %}
+        </select>
+        <select name="class" id="month" onchange="searchMonth()">
+          <option value="">All Months</option>
+            {% for m in mon %}
+            <option value="{{m}}">{{m}}</option>
+            {% endfor %}
+        </select>
+        <input type="text" id="myInput" onkeyup="myFunction(0)" placeholder="Search by Name">
+      </div>
+      <div class="table-outer">
+        <table class="table">
+          <tr class="fixed-header">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Class</th>
+            {% for a in attendenceDate %} 
+            <th>{{a}}</th>
+            {% endfor %}
+          </tr>
+          {% for key, value in attendence.items %}
+          <tr>
+            <td>EE{{key}}</td>
+            {% for k, v in value.items %}
+            <td>{{v}}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js %}
+<script src="static/js/search2.js"></script>
+{% endblock js %}

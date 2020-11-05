@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+<!-- Title -->
+{% block title %}Students{% endblock title %}
+<!-- Header Title -->
+{% block header-text %}Students{% endblock header-text %}
+<!-- CSS -->
+{% block css %}<link rel="stylesheet" href="static/css/students.css" />
+<link rel="stylesheet" href="static/css/table.css" />
+<link rel="stylesheet" href="static/css/search.css" />
+<style>
+  tr td:last-child,
+  tr th:last-child {
+    width: 20%;
+  }
+</style>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+  function getVal(month, id) {
+    $.ajax({
+      url: "month-data",
+      data: {
+        id: id,
+        month: month,
+      },
+      dataType: "json",
+      success: function (data) {
+        $("#" + id + month).html(data.val);
+      },
+    });
+  }
+</script>
+{% endblock css %}
+<!-- Body -->
+{% block body %}
+<!-- Cards -->
+<div class="cards">
+  <a href="/register-student">
+    <div class="card">
+      <div class="card-up">
+        <i class="fas fa-user-graduate"></i>
+      </div>
+      <h2>REGISTER<br />STUDENT</h2>
+    </div>
+  </a>
+  <a href="/update-student">
+    <div class="card">
+      <div class="card-up">
+        <i class="fas fa-pencil-alt"></i>
+      </div>
+      <h2>UPDATE<br />STUDENT</h2>
+    </div>
+  </a>
+  <a href="/delete-student">
+    <div class="card">
+      <div class="card-up">
+        <i class="fas fa-user-times"></i>
+      </div>
+      <h2>DELETE<br />STUDENT</h2>
+    </div>
+  </a>
+</div>
+<div class="defaulters">
+  <div class="card">
+    <div class="card-up">
+      <i class="fas fa-user-graduate"></i>
+    </div>
+    <h2>Students: <span data-target="{{ len }}" class="counter">0</span></h2>
+    <br />
+    <input
+      type="text"
+      id="myInput"
+      onkeyup="myFunction(0)"
+      placeholder="Search "
+    />
+    <select name="by" id="by">
+      <option value="2">by Name</option>
+      <option value="0">by ID</option>
+      <option value="1">by Family #</option>
+      <option value="4">by Class</option>
+    </select>
+    <div class="table-outer">
+      <table class="table">
+        <tr>
+          <th>ID</th>
+          <th>Family #</th>
+          <th>Name</th>
+          <th>F.Name</th>
+          <th>Class</th>
+          <th>Username</th>
+          <th>Fees</th>
+          {% for mon in month %}
+          <th>{{mon}}</th>
+          {% endfor %}
+          <th>Contact #</th>
+          <th>Address</th>
+          <th>Admission</th>
+          <th>Status</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+          <td>EE{{ student.user.id }}</td>
+          <td>ED-{{ student.family }}</td>
+          <td>{{ student.user.first_name }}</td>
+          <td>{{ student.fname }}</td>
+          <td>{{ student.studentClass }}</td>
+          <td>{{ student.user.username }}</td>
+          <td>{{ student.fees }}</td>
+          {% for mon in month %}
+          <td id="{{student.user.id}}{{mon}}">
+            <script>
+              getVal("{{mon}}", "{{student.user.id}}");
+            </script>
+          </td>
+          {% endfor %}
+          <td>{{ student.contact }}</td>
+          <td>{{ student.address }}</td>
+          <td>{{ student.admissionDate }}</td>
+          <td>{{ student.status }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock body %} {% block js %}
+<script src="static/js/search.js"></script>
+{% endblock js %}

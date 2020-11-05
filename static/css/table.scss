@@ -1,0 +1,98 @@
+// Shadow
+$light-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+$dark-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+  0 7px 10px -5px rgba(255, 152, 0, 0.4);
+
+// Color
+$color-orange: #fc930a;
+$color-green: #51ab55;
+$color-red: #e7403c;
+$color-blue: #12b8cd;
+$color-pink: #f06292;
+$color-purple: #8892d6;
+$color-back: #3b3e47;
+$color-light-back: #eeeeee;
+
+// Defaulter
+.defaulters {
+  margin: 1rem;
+  .card {
+    position: relative;
+    background-color: #ffffff;
+    box-shadow: $light-shadow;
+    text-align: left;
+    padding: 1rem;
+
+    border-radius: 10px;
+    flex: 1;
+    margin: 1.1rem 0.7rem;
+    flex-basis: 240px;
+
+    line-height: 35px;
+
+    .card-up {
+      position: absolute;
+      color: white;
+      background-color: $color-pink;
+      display: inline;
+      box-shadow: $dark-shadow;
+      justify-content: center;
+      align-items: center;
+      width: 5rem;
+      height: 5rem;
+      font-size: 1.5rem;
+      top: -1rem;
+      left: 1rem;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 5rem;
+    }
+    h2 {
+      margin-left: 6rem;
+    }
+  }
+}
+.table-outer {
+  overflow-x: scroll;
+  overflow-y: scroll;
+  max-height: 500px;
+}
+.table {
+  //   border-collapse: collapse;
+  box-shadow: $dark-shadow;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+  overflow-x: scroll;
+  position: relative;
+
+  tr {
+    display: flex;
+    align-items: center;
+  }
+  tr td,
+  tr th {
+    text-align: left;
+    padding: 8px;
+    min-width: 180px;
+  }
+  tr th {
+    padding-top: 21px;
+    padding-bottom: 21px;
+    border-right: 1px solid #ffffff;
+  }
+  tr:nth-child(odd) {
+    background-color: #e0fbff;
+  }
+  tr:first-child {
+    background-color: $color-blue;
+    color: white;
+    font-weight: bolder;
+    text-align: center;
+  }
+}
+.fixed-header {
+  position: sticky;
+  top: 0;
+}

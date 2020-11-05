@@ -1,0 +1,316 @@
+{% extends 'base.html' %} {% block title %}Reports{% endblock title %}
+<!-- hgfh -->
+{% block header-text %}Reports{% endblock header-text %} {% block css %}
+<link rel="stylesheet" href="static/css/table.css" />
+<link rel="stylesheet" href="static/css/dashboard.css" />
+<link rel="stylesheet" href="static/css/search.css" />
+<style>
+  #year,
+  #year1,
+  #month,
+  #month1 {
+    padding: 0.2rem;
+    font-size: 1rem;
+  }
+</style>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+  function getVal(month, id) {
+    $.ajax({
+      url: "month-data",
+      data: {
+        id: id,
+        month: month,
+      },
+      dataType: "json",
+      success: function (data) {
+        $("#" + id + month).html(data.val);
+      },
+    });
+  }
+</script>
+{% endblock css %} {% block body %}
+<div class="cards">
+  <div class="card" onclick="stdf()" style="cursor: pointer">
+    <div class="card-up">
+      <i class="fas fa-user-graduate"></i>
+    </div>
+    Students
+    <span data-target="{{ totalStudents }}" class="counter">0</span>
+  </div>
+
+  <div class="card" onclick="incf()" style="cursor: pointer">
+    <div class="card-up">
+      <i class="fas fa-wallet"></i>
+    </div>
+    Income
+    <span data-target="{{ totalInc }}" class="counter">0</span>
+  </div>
+  <div class="card" onclick="expf()" style="cursor: pointer">
+    <div class="card-up">
+      <i class="fas fa-receipt"></i>
+    </div>
+    Expense
+    <span data-target="{{ totalExp }}" class="counter">0</span>
+  </div>
+</div>
+
+<!-- Students -->
+<div class="defaulters std">
+  <div class="card">
+    <div class="card-up" style="background-color: #fc930a">
+      <i class="fas fa-user-graduate"></i>
+    </div>
+    <h2>Students</h2>
+    <button class="download" onclick="downloadStudents()">
+      Download Students
+    </button>
+    <a id="studDown" href="/media/students.csv" download></a>
+    <br />
+    <input
+      type="text"
+      id="myInput"
+      onkeyup="myFunction(0)"
+      placeholder="Search "
+    />
+    <select name="by" id="by">
+      <option value="2">by Name</option>
+      <option value="0">by ID</option>
+      <option value="1">by Family #</option>
+      <option value="4">by Class</option>
+    </select>
+    <div class="table-outer">
+      <table class="table">
+        <tr>
+          <th>ID</th>
+          <th>Family #</th>
+          <th>Name</th>
+          <th>F.Name</th>
+          <th>Class</th>
+          <th>Username</th>
+          <th>Fees</th>
+          {% for mon in month %}
+          <th>{{mon}}</th>
+          {% endfor %}
+          <th>Contact #</th>
+          <th>Address</th>
+          <th>Admission</th>
+          <th>Status</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+          <td>EE{{ student.user.id }}</td>
+          <td>ED-{{ student.family }}</td>
+          <td>{{ student.user.first_name }}</td>
+          <td>{{ student.fname }}</td>
+          <td>{{ student.studentClass }}</td>
+          <td>{{ student.user.username }}</td>
+          <td>{{ student.fees }}</td>
+          {% for mon in month %}
+          <td id="{{student.user.id}}{{mon}}">
+            <script>
+              getVal("{{mon}}", "{{student.user.id}}");
+            </script>
+          </td>
+          {% endfor %}
+          <td>{{ student.contact }}</td>
+          <td>{{ student.address }}</td>
+          <td>{{ student.admissionDate }}</td>
+          <td>{{ student.status }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Income -->
+<div class="defaulters inc">
+  <div class="card">
+    <div class="card-up" style="background-color: #51ab55">
+      <i class="fas fa-wallet"></i>
+    </div>
+    <h2>Income</h2>
+    <button class="download" onclick="downloadIncome()">Download Income</button>
+    <a id="incDown" href="/media/income.csv" download></a>
+    <br />
+    <select name="month" id="month" onchange="searchMonth('table2')"></select>
+    <select name="year" id="year" onchange="searchMonth('table2')"></select>
+    <div class="table-outer">
+      <table class="table table2">
+        <tr>
+          <th>Amount</th>
+          <th style="min-width: 400px !important">Description</th>
+          <th>Date</th>
+          <th>Month</th>
+          <th>Year</th>
+        </tr>
+        {% for exp in income %}
+        <tr>
+          <td>{{ exp.amount }}</td>
+          <td style="min-width: 400px !important">{{ exp.desc }}</td>
+          <td>{{ exp.date }}</td>
+          <td>{{ exp.month }}</td>
+          <td>{{ exp.year }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Expense -->
+<div class="defaulters exp">
+  <div class="card">
+    <div class="card-up" style="background-color: #e7403c">
+      <i class="fas fa-receipt"></i>
+    </div>
+    <h2>Expense</h2>
+    <button class="download" onclick="downloadExpense()">
+      Download Expense
+    </button>
+    <a id="expDown" href="/media/expense.csv" download></a>
+    <br />
+    <select name="month1" id="month1" onchange="searchMonth('table3')"></select>
+    <select name="year1" id="year1" onchange="searchMonth('table3')"></select>
+    <div class="table-outer">
+      <table class="table table3">
+        <tr>
+          <th>Amount</th>
+          <th style="min-width: 400px !important">Description</th>
+          <th>Date</th>
+          <th>Month</th>
+          <th>Year</th>
+        </tr>
+        {% for exp in expense %}
+        <tr>
+          <td>{{ exp.amount }}</td>
+          <td style="min-width: 400px !important">{{ exp.desc }}</td>
+          <td>{{ exp.date }}</td>
+          <td>{{ exp.month }}</td>
+          <td>{{ exp.year }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block js %}
+
+<script>
+  let std = document.querySelector(".std");
+  let inc = document.querySelector(".inc");
+  let exp = document.querySelector(".exp");
+
+  inc.style.display = "none";
+  exp.style.display = "none";
+
+  const stdf = () => {
+    std.style.display = "block";
+    inc.style.display = "none";
+    exp.style.display = "none";
+  };
+  const incf = () => {
+    std.style.display = "none";
+    inc.style.display = "block";
+    exp.style.display = "none";
+  };
+  const expf = () => {
+    std.style.display = "none";
+    inc.style.display = "none";
+    exp.style.display = "block";
+  };
+
+  function downloadStd() {
+    d = document.querySelector("#studDown");
+    d.click();
+  }
+  function downloadInc() {
+    d = document.querySelector("#incDown");
+    d.click();
+  }
+  function downloadExp() {
+    d = document.querySelector("#expDown");
+    d.click();
+  }
+  const year = document.querySelector("#year");
+  const year1 = document.querySelector("#year1");
+  var date = new Date();
+  for (i = date.getFullYear(); i >= 2019; i--) {
+    year.innerHTML = year.innerHTML += `<option id="${i}">${i}</option>`;
+    year1.innerHTML = year1.innerHTML += `<option id="${i}1">${i}</option>`;
+  }
+
+  const month = document.querySelector("#month");
+  const month1 = document.querySelector("#month1");
+  months = [
+    "January",
+    "Febraury",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  for (i = 0; i < 12; i++) {
+    month.innerHTML = month.innerHTML += `<option id="${months[i]}">${months[i]}</option>`;
+    month1.innerHTML = month1.innerHTML += `<option id="${months[i]}1">${months[i]}</option>`;
+  }
+  fullMonth = date.getMonth();
+  document.querySelector(`#${months[fullMonth]}`).selected = true;
+  document.querySelector(`#${months[fullMonth]}1`).selected = true;
+</script>
+<script src="static/js/search.js"></script>
+<script src="static/js/search3.js"></script>
+<script>
+  searchMonth("table2");
+  searchMonth("table3");
+</script>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+  function downloadIncome() {
+    console.log(typeof $("#month").val());
+    $.ajax({
+      url: "income-download",
+      data: {
+        month: $("#month").val(),
+        year: $("#year").val(),
+      },
+      dataType: "json",
+      success: function (data) {
+        downloadInc();
+      },
+    });
+  }
+
+  function downloadExpense() {
+    $.ajax({
+      url: "expense-download",
+      data: {
+        month: $("#month1").val(),
+        year: $("#year1").val(),
+      },
+      dataType: "json",
+      success: function (data) {
+        downloadExp();
+      },
+    });
+  }
+
+  function downloadStudents() {
+    $.ajax({
+      url: "student-download",
+      data: {},
+      dataType: "json",
+      success: function (data) {
+        downloadStd();
+      },
+    });
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+<!-- Title -->
+{% block title %}Register Student{% endblock title %}
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="static/css/register.css" />
+<style>
+  .message {
+    background-color: #51ab55;
+    color: white;
+    padding: 0.5rem;
+    width: 100%;
+    text-align: center;
+  }
+</style>
+{% endblock css %}
+<!-- Header Title -->
+{% block header-text %}Register Student{% endblock header-text %}
+<!-- Body -->
+{% block body %}
+<div class="custom-select">
+  <form method="POST" action="/register-student">
+    {% if messages %} {% for message in messages %}
+    <div class="message">{{ message }}</div>
+    {% endfor %} {% endif %} {% csrf_token %}
+    <div class="family">
+      <div class="ed">ED -</div>
+      <input
+        type="number"
+        name="family"
+        placeholder="Family Number"
+        id="family"
+        value="{{family}}"
+        required
+      />
+    </div>
+    <input type="text" name="name" placeholder="Name" required />
+    <input type="text" name="fname" placeholder="Father Name" required />
+    <input
+      type="text"
+      id="username"
+      name="username"
+      placeholder="Username"
+      required
+    />
+    <p id="exist"></p>
+    <input
+      type="text"
+      value="{{password}}"
+      name="password"
+      placeholder="Password"
+      required
+    />
+
+    <div class="custom-select">
+      <label for="class">Class</label>
+      <select name="class" id="class">
+        {% for class in classes %}
+        <option value="{{ class.id }}" name="{{ class }}">{{ class }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <input type="text" name="section" placeholder="Section (Optional)" />
+    <input type="text" name="fees" placeholder="Fees" />
+    <input
+      type="tel"
+      name="contact"
+      id="contact"
+      placeholder="Contact Number (Optional)"
+    />
+    <input
+      type="text"
+      name="address"
+      id="address"
+      placeholder="Address (Optional)"
+    />
+    <button type="submit">Register</button>
+  </form>
+</div>
+{% endblock body %} {% comment %} JavaScript {% endcomment %} {% block js %}
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+  $("#family").keyup(function () {
+    var family = $(this).val();
+
+    $.ajax({
+      url: "check-family",
+      data: {
+        family: family,
+      },
+      dataType: "json",
+      success: function (data) {
+        $("#address").val(data.address);
+
+        $("#contact").val(data.contact);
+      },
+    });
+  });
+
+  $("#username").keyup(function () {
+    var username = $(this).val();
+
+    $.ajax({
+      url: "username-check",
+      data: {
+        username: username,
+      },
+      dataType: "json",
+      success: function (data) {
+        console.log(data.flag);
+        if (data.flag == 0) {
+          $("#exist").html("This username already exist.");
+        } else {
+          $("#exist").html("");
+        }
+      },
+    });
+  });
+</script>
+{% endblock js %}

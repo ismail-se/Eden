@@ -1,0 +1,125 @@
+.main {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.register {
+  width: 100%;
+  padding: 2rem;
+  margin: auto;
+}
+
+form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+form input,
+form select,
+form textarea,
+form button,
+form .class-subject {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding: 1rem;
+  margin: 0.5rem;
+  font-size: 1rem;
+  width: 50rem;
+}
+
+form .checkbox {
+  width: 1rem;
+}
+
+form .class-subject {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+form .custom-select {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+form .custom-select select,
+form .custom-select input {
+  width: 47.4rem;
+  margin-right: 0;
+}
+
+form button {
+  color: #ffffff;
+  background-color: #000000;
+}
+
+form .family {
+  width: 50rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+form .family .ed {
+  background-color: #ffffff;
+  padding: 1rem;
+  border: 1px solid #000000;
+}
+
+form .family #family {
+  width: 47.4rem;
+  margin-right: 0;
+}
+
+@media (max-width: 880px) {
+  input,
+  textarea,
+  button {
+    width: 95% !important;
+  }
+  .custom-select,
+  .class-subject,
+  .family {
+    width: 95% !important;
+  }
+  .checkbox {
+    width: 1rem !important;
+  }
+  select,
+  .input {
+    width: 90% !important;
+  }
+}
+/*# sourceMappingURL=register.css.map */

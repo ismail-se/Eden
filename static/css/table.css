@@ -1,0 +1,104 @@
+.defaulters {
+  margin: 1rem;
+}
+
+.defaulters .card {
+  position: relative;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  text-align: left;
+  padding: 1rem;
+  border-radius: 10px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  margin: 1.1rem 0.7rem;
+  -ms-flex-preferred-size: 240px;
+      flex-basis: 240px;
+  line-height: 35px;
+}
+
+.defaulters .card .card-up {
+  position: absolute;
+  color: white;
+  background-color: #f06292;
+  display: inline;
+  -webkit-box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+          box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 5rem;
+  height: 5rem;
+  font-size: 1.5rem;
+  top: -1rem;
+  left: 1rem;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 5rem;
+}
+
+.defaulters .card h2 {
+  margin-left: 6rem;
+}
+
+.table-outer {
+  overflow-x: scroll;
+  overflow-y: scroll;
+  max-height: 500px;
+}
+
+.table {
+  -webkit-box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+          box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+  overflow-x: scroll;
+  position: relative;
+}
+
+.table tr {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.table tr td,
+.table tr th {
+  text-align: left;
+  padding: 8px;
+  min-width: 180px;
+}
+
+.table tr th {
+  padding-top: 21px;
+  padding-bottom: 21px;
+  border-right: 1px solid #ffffff;
+}
+
+.table tr:nth-child(odd) {
+  background-color: #e0fbff;
+}
+
+.table tr:first-child {
+  background-color: #12b8cd;
+  color: white;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.fixed-header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+/*# sourceMappingURL=table.css.map */

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Expence{% endblock title %}
+{% block header-text %}Expence{% endblock header-text %}
+
+{% block css %}
+<link rel="stylesheet" href="static/css/register.css" />
+<link rel="stylesheet" href="static/css/table.css" />
+<style>
+  .c {
+    display: flex;
+    margin: 2rem;
+    flex-direction: row-reverse;
+  }
+  .clear {
+    background-color: rgb(241, 93, 34);
+    color: white;
+    font-size: 1.1rem;
+    padding: 0.7rem;
+    margin: 0.2rem;
+    border: none;
+    
+  }
+</style>
+{% endblock css %}
+
+{% block body %}
+<br>
+<form action="/expense" method="POST">
+  {% csrf_token %}
+  <div class="family">
+    <div class="ed">Rs. </div>
+    <input type="number" name="amount" placeholder="Amount" id="amount" required />
+  </div>
+  <input type="text" name="desc" id="desc" placeholder="Description">
+  <button type="submit">Add Expense</button>
+</form>
+<br>
+
+<div class="defaulters">
+  <div class="card">
+    <div class="card-up">
+      <i class="fas fa-receipt"></i>
+    </div>
+    <h2>Total Expense: <span data-target="{{ length }}" class="counter">0</span></h2>
+    
+    <br>
+    <div class="table-outer">
+    <table class="table">
+      <tr>
+        <th>Amount</th>
+        <th style="min-width: 400px !important;">Description</th>
+        <th>Date</th>
+        <th>Delete</th>
+      </tr>
+      {% for exp in expense %}
+        <tr>
+          <td>{{ exp.amount }}</td>
+          <td style="min-width: 400px !important;">{{ exp.desc }}</td>
+          <td>{{ exp.date }}</td>
+          <td
+            style="cursor: pointer"
+            class="delete"
+            onclick="del('{{ exp.id }}')"
+          >
+            DELETE &nbsp; <i class="far fa-times-circle"></i>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+  
+  
+    function del(id) {
+    $.ajax({
+      url: "exp-delete",
+      data: {
+        id: id,
+      },
+      dataType: "json",
+      success: function (data) {
+        location.reload(true);
+      },
+    });
+  }
+</script>
+{% endblock js %}

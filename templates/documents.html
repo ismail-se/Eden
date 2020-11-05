@@ -1,0 +1,120 @@
+<!-- Base -->
+{% extends 'base.html' %}
+
+<!-- Title -->
+{% block title %}Documentd{% endblock title %}
+<!-- Header Text -->
+{% block header-text %}Documents{% endblock header-text %}
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="static/css/dashboard.css" />
+<link rel="stylesheet" href="static/css/table.css" />
+<style>
+    .main{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    input {
+        border: 2px solid black;
+        padding: 10px;
+    }
+    label{
+        display: none;
+    }
+    button{
+        margin-top: 2rem;
+        padding: 0.8rem 2rem;
+        border: none;
+        background-color: #51ab55;
+        font-size: 1.1rem;
+        color: white;
+    }
+    .docs {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .docs .docLink {
+        width: 15rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .docLink img {
+        width: 10rem;
+    }
+    .da {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+  function deleteDoc(id) {
+      $.ajax({
+        url: 'del-documents',
+        data: {
+          'id': id,
+        },
+        dataType: 'json',
+        success: function(data) {
+            location.reload(true);
+        }
+      });
+      
+    };
+    
+  
+</script>
+{% endblock css %}
+
+<!-- Body -->
+{% block body %}
+
+<!-- Cards -->
+<div class="cards">
+    <form action="/documents" method="POST" enctype= "multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+        
+    </form>
+    </div>
+    
+  </div>
+
+<!-- Defaulters -->
+<div class="defaulters">
+    <div class="card">
+      <div class="card-up">
+        <i class="fas fa-file-upload"></i>
+      </div>
+      <h2>Documents</h2>
+      <br />
+    
+      <div class="docs">
+          {% for doc in docs %}
+            <div class="da">
+                <a class="docLink" href="/media/{{doc.document}}" download>
+                    <img src="/static/img/Acrobat.png" alt="">
+                    <p>{{doc.description}}</p>
+                    
+                </a>
+                <button onclick="deleteDoc('{{doc.id}}')">Delete</button>
+            </div>
+          {% endfor %}
+      </div>
+      
+      
+    </div>
+  
+    
+  </div>
+{% endblock body %}

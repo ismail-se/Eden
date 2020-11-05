@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+// Shadow
+$light-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+$dark-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+  0 7px 10px -5px rgba(255, 152, 0, 0.4);
+
+// Color
+$color-orange: #fc930a;
+$color-green: #51ab55;
+$color-red: #e7403c;
+$color-blue: #12b8cd;
+$color-pink: #f06292;
+$color-purple: #8892d6;
+$color-back: #3b3e47;
+$color-light-back: #eeeeee;
+
+.main .cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  flex-wrap: wrap;
+
+  .card {
+    position: relative;
+    background-color: #ffffff;
+    box-shadow: $light-shadow;
+    text-align: left;
+    padding: 1rem;
+    border-radius: 10px;
+    flex: 1;
+    margin: 1.1rem 0.7rem;
+    flex-basis: 240px;
+    height: 130px;
+    line-height: 35px;
+    font-family: "Lato", sans-serif;
+
+    .card-up {
+      position: absolute;
+      color: white;
+      background-color: $color-orange;
+      display: inline;
+      box-shadow: $dark-shadow;
+      justify-content: center;
+      align-items: center;
+      width: 5rem;
+      height: 5rem;
+      font-size: 1.5rem;
+      top: -1rem;
+      right: 1rem;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 5rem;
+      transition: all 0.5s ease;
+    }
+
+    span {
+      display: block;
+      font-size: 2rem;
+    }
+  }
+  .card:nth-child(2) {
+    .card-up {
+      background-color: $color-green;
+    }
+  }
+  .card:nth-child(3) {
+    .card-up {
+      background-color: $color-red;
+    }
+  }
+  .card:nth-child(4) {
+    .card-up {
+      background-color: $color-blue;
+    }
+  }
+  .card:nth-child(5) {
+    .card-up {
+      background-color: $color-purple;
+    }
+  }
+  .card:nth-child(6) {
+    .card-up {
+      background-color: $color-pink;
+    }
+  }
+}
+main .cards .card:hover .card-up {
+  width: 5.5rem;
+  height: 5.5rem;
+  top: -1.3rem;
+  line-height: 5.5rem;
+}
+
+.download {
+  background-color: $color-red;
+  color: white;
+  padding: 1rem;
+  font-size: 1rem;
+  border: none;
+  margin-top: 1rem;
+  position: absolute;
+  right: 20px;
+  top: -10px;
+}

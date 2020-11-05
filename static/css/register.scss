@@ -1,0 +1,86 @@
+.main {
+  justify-content: center;
+  align-items: center;
+}
+.register {
+  width: 100%;
+  padding: 2rem;
+  margin: auto;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  input,
+  select,
+  textarea,
+  button,
+  .class-subject {
+    flex: 1;
+    padding: 1rem;
+    margin: 0.5rem;
+    font-size: 1rem;
+    width: 50rem;
+  }
+  .checkbox{
+      width: 1rem;
+  }
+
+  .class-subject {
+    display: flex;
+    flex-direction: column;
+  }
+  .custom-select {
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+
+    select,
+    input {
+      width: 47.4rem;
+      margin-right: 0;
+    }
+  }
+
+  button {
+    color: #ffffff;
+    background-color: #000000;
+  }
+  .family {
+    width: 50rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    .ed {
+      background-color: #ffffff;
+      padding: 1rem;
+      border: 1px solid #000000;
+    }
+    #family {
+      width: 47.4rem;
+      margin-right: 0;
+    }
+  }
+}
+
+@media (max-width: 880px) {
+  input,
+  textarea,
+  button {
+    width: 95% !important;
+  }
+  .custom-select,
+  .class-subject,
+  .family {
+    width: 95% !important;
+  }
+  .checkbox{
+    width: 1rem !important;
+}
+  select,
+  .input {
+    width: 90% !important;
+  }
+}
