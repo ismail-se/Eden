@@ -15,6 +15,7 @@ import pandas as pd
 import random
 from django.core.files.storage import default_storage
 from django.core.files.storage import FileSystemStorage
+from dateutil.relativedelta import relativedelta
 
 
 # Create your views here.
@@ -64,13 +65,23 @@ def home(request):
 
     # expense = Expense.objects.filter(month=month, year=year)
     # income = Income.objects.filter(month=month, year=year)
-    # b,c = Balance.objects.get_or_create(pk=1)
+    b,c = Balance.objects.get_or_create(pk=1)
     flag = 0
     if (day == '01'):
         for f in fees:
             if f.feeMonth == month and f.feeYear == year:
                 flag == 1
                 break
+        if b.balance == 0:
+            last_month = datetime.now() - relativedelta(months=1)
+            lmonth = last_month.strftime("%B")
+            lyear = last_month.strftime("%Y")
+            income = Income.objects.filter(month=lmonth, year=lyear)
+            bal = 0
+            for i in income:
+                bal += i.amount
+            b.balance = bal
+            b.save()
 
     if flag == 0:
         for s in students:
