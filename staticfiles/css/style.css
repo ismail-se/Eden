@@ -1,0 +1,272 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar:hover {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.2);
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(119, 119, 119, 0.5);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow-x: hidden;
+  background-color: #eeeeee;
+}
+
+a {
+  color: currentColor;
+  text-decoration: none;
+}
+
+aside {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-color: #ffffff;
+  color: #ffffff;
+  width: 15rem;
+  height: 100vh;
+  position: fixed;
+  overflow: visible;
+  overflow-x: hidden;
+  z-index: 99;
+  -webkit-box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+          box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+  left: 0;
+  -webkit-transition: left 0.5s ease-in-out;
+  transition: left 0.5s ease-in-out;
+}
+
+aside .logo {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 1.3rem;
+  margin: 0 auto 0 auto;
+  background-color: #1f1f1f;
+  padding: 1.6rem 1.9rem 1.6rem 1.8rem;
+  position: fixed;
+  -webkit-box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+          box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+}
+
+aside ul {
+  margin-top: 5rem;
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+aside ul li {
+  padding: 1.3rem 2rem;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  pointer-events: all;
+}
+
+aside ul li a {
+  color: #000000;
+  text-decoration: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+aside ul li a p {
+  margin-left: 1rem !important;
+}
+
+aside ul li:hover {
+  background-color: #eeeeee;
+}
+
+main {
+  -webkit-transition: margin-left 0.5s ease-in-out;
+  transition: margin-left 0.5s ease-in-out;
+  width: 100%;
+}
+
+@media (max-width: 960px) {
+  main {
+    margin-left: 0;
+  }
+}
+
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background-color: #ffffff;
+  margin-bottom: 0.7rem;
+  font-size: 1.2rem;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  width: 100%;
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  -webkit-transition: top 0.4s;
+  transition: top 0.4s;
+}
+
+header .hamburger {
+  padding: 1.6rem 0rem 1.6rem 2.7rem;
+}
+
+header .hamburger a {
+  color: black;
+}
+
+@media (max-width: 960px) {
+  header .hamburger {
+    padding: 1.6rem;
+  }
+  header .hamburger a {
+    position: absolute;
+    right: 5rem;
+    z-index: 99;
+  }
+}
+
+header .user {
+  padding: 1.6rem;
+  position: fixed;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+@media (max-width: 960px) {
+  header .user .username {
+    display: none;
+  }
+}
+
+main .settings {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+  z-index: 1000;
+  -webkit-transition: top 0.5s ease;
+  transition: top 0.5s ease;
+}
+
+main .settings hr {
+  border: 0.01px solid lightgrey;
+}
+
+main .settings ul {
+  list-style: none;
+}
+
+main .settings ul a {
+  color: currentColor !important;
+  text-decoration: none;
+}
+
+main .settings ul a li {
+  padding: 1rem 6rem 1rem 1.5rem;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+main .settings ul a:hover li {
+  background-color: lightgray;
+}
+
+main .settings ul a:first-child:hover li {
+  border-radius: 10px 10px 0 0 !important;
+}
+
+main .settings ul a:last-child:hover li {
+  border-radius: 0 0 10px 10px;
+}
+
+.main {
+  margin-top: 5rem;
+}
+
+.show {
+  display: block !important;
+}
+
+.hide {
+  left: -15rem;
+}
+
+.none {
+  display: none;
+}
+
+.margin {
+  margin-left: 15rem !important;
+}
+
+.inline-block {
+  display: inline-block !important;
+}
+/*# sourceMappingURL=style.css.map */
