@@ -81,7 +81,7 @@ def home(request):
             for i in income:
                 bal += i.amount
             b.balance = bal
-            b.save()
+            b.save(force_insert=False)
 
     if flag == 0:
         for s in students:
