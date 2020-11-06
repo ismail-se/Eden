@@ -86,6 +86,16 @@
     console.log(li.innerHTML)
     li.innerHTML = `<span class="active">${days}</span>`;
   }
+  const leave =(days)=> {
+    var li = document.getElementById(days);
+    console.log(li.innerHTML)
+    li.innerHTML = `<span class="active" style="background: #12b8cd">${days}</span>`;
+  }
+  const present =(days)=> {
+    var li = document.getElementById(days);
+    console.log(li.innerHTML)
+    li.innerHTML = `<span class="active" style="background: #51ab55">${days}</span>`;
+  }
 </script>
   </head>
   <body>
@@ -126,7 +136,14 @@
         </div>
         <h2>Attendence</h2>
         <br />
-  
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <div style="width: 1.5rem; height: 1.5rem; background: #51ab55; margin-right: .5rem;"></div>
+          <p style="margin-right: 1rem;">Present</p>
+          <div style="width: 1.5rem; height: 1.5rem; background: #e7403c; margin-right: .5rem;"></div>
+          <p style="margin-right: 1rem;">Absent</p>
+          <div style="width: 1.5rem; height: 1.5rem; background:#12b8cd; margin-right: .5rem;"></div>
+          <p style="margin-right: 1rem;">Leave</p>
+        </div>
         <div class="month">
           <ul>
             
@@ -238,6 +255,10 @@
   {% for a in attendence %}
     {% if a.attendence == "Absent" %}
     <script>absent("{{a.date.day}}")</script> 
+    {% elif a.attendence == "Leave" %}
+    <script>leave("{{a.date.day}}")</script> 
+    {% elif a.attendence == "Present" %}
+    <script>present("{{a.date.day}}")</script>
     {% endif %}
   {% endfor %}
   
