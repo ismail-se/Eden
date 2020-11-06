@@ -65,7 +65,7 @@ def home(request):
 
     # expense = Expense.objects.filter(month=month, year=year)
     # income = Income.objects.filter(month=month, year=year)
-    b = Balance.objects.get_or_create(pk=1)
+    b = Balance.objects.get(pk=1)
     flag = 0
     if (day == '01'):
         for f in fees:
