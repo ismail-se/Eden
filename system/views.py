@@ -65,7 +65,7 @@ def home(request):
 
     # expense = Expense.objects.filter(month=month, year=year)
     # income = Income.objects.filter(month=month, year=year)
-    b,c = Balance.objects.get_or_create(pk=1)
+    b = Balance.objects.get_or_create(pk=1)
     flag = 0
     if (day == '01'):
         for f in fees:
@@ -81,7 +81,7 @@ def home(request):
             for i in income:
                 bal += i.amount
             b.balance = bal
-            b.save(force_insert=False)
+            b.save()
 
     if flag == 0:
         for s in students:
