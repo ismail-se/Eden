@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'lua!am4gy408($a4&q@x$mv2^rz4w@z2_9xlz*el!#9h!@%lp4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['edeneducation.herokuapp.com']
+ALLOWED_HOSTS = ['edeneducation.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
