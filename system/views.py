@@ -253,7 +253,7 @@ def registerStudents(request):
         newStudent.save()
         messages.success(request, "Student has registered successfully")
 
-        newFee = StudentFees(feeMonth=x.strftime("%B"), feeDate=x.strftime(
+        newFee = StudentFees(feeMonth=x.strftime("%B"), feeYear=x.strftime("%Y"), feeDate=x.strftime(
             '%Y'+'-'+'%m'+'-'+'%d'), feeStatus='Unpaid', students=newStudent)
         newFee.save()
 
