@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Classes, Subject, Students, Teachers, StudentFees, Income, Expense, Balance, Header
+from .models import Classes, Subject, Students, Teachers, Incharge, StudentFees, Income, Expense, Balance, Header, Test
 from django.http import JsonResponse, HttpResponse
 from django.core import serializers
 from django.contrib.sessions.models import Session
@@ -16,6 +16,9 @@ import random
 from django.core.files.storage import default_storage
 from django.core.files.storage import FileSystemStorage
 from dateutil.relativedelta import relativedelta
+import urllib
+import requests
+import json
 
 
 # Create your views here.
@@ -26,9 +29,13 @@ def index(request):
         if request.user.is_superuser:
             return redirect("/home")
         else:
-            std = Students.objects.get(user=request.user)
-            if std.status == "Active":
-                return redirect('/student-dashboard')
+            try:
+                request.user.incharge.is_incharge
+                return redirect("/incharge")
+            except:
+                std = Students.objects.get(user=request.user)
+                if std.status == "Active":
+                    return redirect('/student-dashboard')
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -38,7 +45,11 @@ def index(request):
             if user.is_staff:
                 return redirect('/home')
             else:
-                return redirect('/student-dashboard')
+                try:
+                    user.incharge.is_incharge
+                    return redirect("/incharge")
+                except:
+                    return redirect('/student-dashboard')
         else:
             messages.error(
                 request, "You entered incorrect username or password")
@@ -61,31 +72,45 @@ def home(request):
     month = x.strftime("%B")
     year = x.strftime("%Y")
     day = x.strftime("%d")
+
     
-
-    # expense = Expense.objects.filter(month=month, year=year)
-    # income = Income.objects.filter(month=month, year=year)
-    b = Balance.objects.get(pk=1)
-    flag = 0
+    
     if (day == '01'):
-        for f in fees:
-            if f.feeMonth == month and f.feeYear == year:
-                flag == 1
-                break
-        if b.balance == 0:
-            last_month = datetime.now() - relativedelta(months=1)
-            lmonth = last_month.strftime("%B")
-            lyear = last_month.strftime("%Y")
+        
+        last_month = datetime.datetime.now() - relativedelta(months=1)
+        lmonth = last_month.strftime("%B")
+        lyear = last_month.strftime("%Y")
+        try:
+            b = Balance.objects.get(month=lmonth, year=lyear)
+        except:
             income = Income.objects.filter(month=lmonth, year=lyear)
-            bal = 0
+            expense = Expense.objects.filter(month=lmonth, year=lyear)
+            # Expense
+            totalExp = 0
+            for e in expense:
+                totalExp += int(e.amount)
+            # Income
+            totalInc = 0
             for i in income:
-                bal += i.amount
-            b.balance = bal
-            b.save()
+                totalInc += int(i.amount)
 
-    if flag == 0:
+            fee = StudentFees.objects.filter(feeMonth=lmonth, feeYear=lyear, feeStatus="Paid")
+            feeInc = 0
+            for f in fee:
+                feeInc += int(f.students.fees)
+            totalInc += feeInc
+
+            profit = totalInc - totalExp
+            b = Balance(month=lmonth, year=lyear, balance=profit)
+            b.save()
+            inc = Income(amount=profit, desc="Balance of "+lmonth, month=month, year=year)
+            inc.save()
+
         for s in students:
-            fee = StudentFees(students=s, feeMonth=month, feeYear=year, feeStatus="Unpaid")
+            fee, created = StudentFees.objects.get_or_create(students=s, feeMonth=month, feeYear=year);
+            if (created):
+                fee.feeStatus = "Unpaid"
+                fee.save()
         
 
     
@@ -154,7 +179,7 @@ def dashboard(request):
 
     
 
-    fee = StudentFees.objects.filter(feeMonth=month, feeStatus="Paid")
+    fee = StudentFees.objects.filter(feeMonth=month,feeYear=year, feeStatus="Paid")
     feeInc = 0
     for f in fee:
         feeInc += int(f.students.fees)
@@ -392,7 +417,7 @@ def updateStudents(request):
         newUser = User.objects.get(pk=id)
         newUser.username = username
         if password != "":
-            newUser.password = password
+            newUser.set_password(password)
         newUser.first_name = name
         newStudent = Students.objects.get(user=newUser)
         newStudent.family = family
@@ -835,12 +860,12 @@ def reports(request):
     x = datetime.datetime.now() 
     month = x.strftime("%B")
     year = x.strftime("%Y")
-    income = Income.objects.all()
+    income = Income.objects.filter(month=month, year=year)
     inc_total = 0
     for inc in income:
         inc_total += int(inc.amount)
     
-    expense = Expense.objects.all()
+    expense = Expense.objects.filter(month=month, year=year)
     exp_total = 0
     for exp in expense:
         exp_total += int(exp.amount)
@@ -890,6 +915,11 @@ def reports(request):
     month = x.strftime("%B")
 
     fee = StudentFees.objects.filter(feeMonth=month, feeStatus="Paid")
+    st = Students.objects.filter(status="Active")
+    feePaidStd = set([])
+    for s in st:
+        for a in s.studentfees_set.filter(feeStatus="Paid", feeMonth=month):
+            feePaidStd.add(s)
     feeInc = 0
     for f in fee:
         feeInc += int(f.students.fees)
@@ -905,6 +935,8 @@ def reports(request):
         'totalStudents': len(students),
         'totalInc':totalInc,
         'totalExp':totalExp,
+        'feePaidStd': feePaidStd,
+        'totalFeePaidStd': len(feePaidStd),
         'def': def_students,
         'month': month1,
     }
@@ -924,12 +956,14 @@ def settings(request):
         if newPassword == repeatPassword:
 
             user = User.objects.get(username=username)
-            user.username = newUsername
+            if newUsername != None:
+                user.username = newUsername
             user.set_password(newPassword)
             user.save()
             messages.success(
                 request, "Username and password changed successfully")
             logout(request)
+            return redirect("/")
 
     return render(request, "settings.html")
 
@@ -970,11 +1004,11 @@ def importCSV(request):
                 print(df.at[i, 'name'])
                 user = User(
                     username=df.at[i, 'username'],
-                    password=df.at[i, 'password'],
                     first_name=df.at[i, 'name'],
                     )
+                user.set_password(str(df.at[i, 'password']))
                 user.save()
-                studntClass = Classes.objects.get(classes=df.at[i, 'class'])
+                studntClass, createClass = Classes.objects.get_or_create(classes=df.at[i, 'class'])
                 std = Students(
                     user=user,
                     family=df.at[i, 'family_no'],
@@ -988,7 +1022,7 @@ def importCSV(request):
                 std.save()
                 fees = StudentFees(students=std, feeMonth=month, feeYear=year, feeStatus="Unpaid")
                 fees.save()
-                return redirect("/students")
+            return redirect("/students")
     else:
         form = UploadFileForm()
 
@@ -1078,9 +1112,11 @@ def stdDelete(request):
     return JsonResponse(data)
 
 def feeDelete(request):
+    print("In fee detail")
     id = int(request.GET.get('id', None))
     fee = StudentFees.objects.get(pk=id)
-    fee.delete()
+    fee.feeStatus = "Unpaid"
+    fee.save()
     data = {}
     return JsonResponse(data)
 
@@ -1225,6 +1261,8 @@ def studentDashboard(request):
     fee = StudentFees.objects.filter(students=students)
     docs = Documents.objects.all()
 
+    test = Test.objects.filter(student=students)
+
     context = {
         "name": request.user.first_name,
         "attendenceDate":attDate,
@@ -1232,6 +1270,7 @@ def studentDashboard(request):
         "mon": mon,
         "fee": fee,
         "docs": docs,
+        "test": test,
     }
     return render(request, "student-dashboard.html", context)
 
@@ -1281,6 +1320,17 @@ def delDocuments(request):
     id = request.GET.get('id', None)
     doc = Documents.objects.get(pk=id)
     doc.delete()
+    
+    data = {
+        
+    }
+    
+    return JsonResponse(data)
+
+def delMarks(request):
+    id = request.GET.get('id', None)
+    test = Test.objects.get(pk=id)
+    test.delete()
     
     data = {
         
@@ -1489,3 +1539,166 @@ def studentDownload(request):
     data = {}
     return JsonResponse(data)
 
+
+def studentFeePaidDownload(request):
+    id = []
+    family = []
+    name = []
+    fName = []
+    studentClass = []
+    username = []
+    stdFees = []
+    contact = []
+    address = []
+    admissionDate = []
+
+    students = Students.objects.filter(status="Active")
+    fees = StudentFees.objects.all()
+    def_students = {}
+    x = datetime.datetime.now()
+    month = x.strftime("%B")
+
+    feePaidStd = set([])
+    for s in students:
+        for a in s.studentfees_set.filter(feeStatus="Paid", feeMonth=month):
+            feePaidStd.add(s)
+
+    for student in feePaidStd:
+        id.append("EE"+str(student.user.id))
+        family.append("ED-"+str(student.family))
+        name.append(student.user.first_name)
+        fName.append(student.fname)
+        studentClass.append(student.studentClass)
+        username.append(student.user.username)
+        stdFees.append(student.fees)
+        contact.append(student.contact)
+        address.append(student.address)
+        admissionDate.append(student.admissionDate)
+
+
+    data = {
+        "Id": id, 
+        "Family#":family, 
+        "Name":name, 
+        "F.Name":fName, 
+        "Class":studentClass, 
+        "Username":username, 
+        "Contact#":contact, 
+        "Address":address, 
+        "Admission":admissionDate
+        }
+
+   
+    
+        
+    df = pd.DataFrame(data)
+    df.to_csv(r'./media/feePaidStudents.csv', sep=',',index=False)
+    
+    data = {}
+    return JsonResponse(data)
+
+def incharge(request):
+    try:
+        request.user.incharge.is_incharge
+    except:
+        return redirect("/")
+
+    students = Students.objects.filter(status="Active")
+
+    if request.method == 'POST':
+        subject = request.POST['subject']
+        date = request.POST['date']
+        totalMarks = request.POST['total']
+
+        sub = Subject.objects.get(subject=subject)
+
+        for std in students:
+            obt = request.POST['obtained' + str(std.user.id)]
+            if obt != "":
+                t = Test(student=std, subject=sub, obtainedMarks=int(obt), totalMarks=int(totalMarks), date=date)
+                t.save()
+
+    test = Test.objects.all()
+    subjects = Subject.objects.all()
+
+    context = {
+        "test": test,
+        "students": students,
+        "subjects": subjects,
+    }
+    return render(request, "incharge.html", context)
+
+def sendSMS(request):
+
+    text = request.GET.get('text', None)
+    
+    students = Students.objects.filter(status = "Active")
+    fees = StudentFees.objects.all()
+    def_students = {}
+    def_students_list = []
+
+    for student in students:  
+        for fee in fees:
+            if student.user.id == fee.students.user.id:
+                if str(student.user.id) in def_students:
+                    def_students[str(student.user.id)][fee.feeMonth] = fee.feeStatus
+                else:
+                    def_students[str(student.user.id)] = {
+                        fee.feeMonth:fee.feeStatus 
+                    }
+                    for f in StudentFees.objects.filter(students=Students.objects.get(pk=student.user.id)): 
+                        if f.feeStatus == 'Unpaid':
+                            if student not in def_students_list:
+                                def_students_list.append(Students.objects.get(pk=student.user.id))
+
+    phone = ""
+
+    for std in def_students_list:
+        if std.contact != "":
+            phone += "92"+str(int(str(std.contact)))+","
+    print(phone[0:-1])
+    print(text)
+
+    email = "edeneducationcoaching@gmail.com"
+    key = "11c7ad1c37635d45903776a7bdf043ed32"
+    mask = "Eden"
+    to = phone[0:-1]
+    message = text
+    multiple = "1"
+    mask = urllib.parse.quote(mask, safe='')
+    message = urllib.parse.quote(message, safe='')
+    data = "?email="+email+"&key="+key+"&mask="+mask+"&multiple="+multiple+"&to="+to+"&message="+message
+    myobj = {'somekey': data}
+    url = 'https://secure.h3techs.com/sms/api/send.php'+data
+    x = requests.post(url)
+    res = json.loads(x.text)
+    
+    data = {"res":res['sms']['response']}
+    return JsonResponse(data)
+
+def sendSMSAll(request):
+    text = request.GET.get('text', None)
+    students = Students.objects.all()
+    phone = ""
+    for std in students:
+        if std.contact != "":
+            phone += "92"+str(int(str(std.contact)))+","
+    print(phone[0:-1])
+    print(text)
+
+    email = "edeneducationcoaching@gmail.com"
+    key = "11c7ad1c37635d45903776a7bdf043ed32"
+    mask = "Eden"
+    to = phone[0:-1]
+    message = text
+    multiple = "1"
+    mask = urllib.parse.quote(mask, safe='')
+    message = urllib.parse.quote(message, safe='')
+    data = "?email="+email+"&key="+key+"&mask="+mask+"&multiple="+multiple+"&to="+to+"&message="+message
+    myobj = {'somekey': data}
+    url = 'https://secure.h3techs.com/sms/api/send.php'+data
+    x = requests.post(url)
+    res = json.loads(x.text)
+    
+    data = {"res":res['sms']['response']}
+    return JsonResponse(data)

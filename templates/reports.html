@@ -39,6 +39,14 @@
     <span data-target="{{ totalStudents }}" class="counter">0</span>
   </div>
 
+  <div class="card" onclick="feef()" style="cursor: pointer">
+    <div class="card-up">
+      <i class="fas fa-money-check-alt"></i>
+    </div>
+    Fee Paid
+    <span data-target="{{ totalFeePaidStd }}" class="counter">0</span>
+  </div>
+
   <div class="card" onclick="incf()" style="cursor: pointer">
     <div class="card-up">
       <i class="fas fa-wallet"></i>
@@ -124,10 +132,70 @@
   </div>
 </div>
 
+<!-- Fee Paid -->
+<div class="defaulters feePaid">
+  <div class="card">
+    <div class="card-up" style="background-color: #51ab55">
+      <i class="fas fa-user-graduate"></i>
+    </div>
+    <h2>Fee Paid</h2>
+    <button class="download" onclick="downloadFeePaidStd()">
+      Download Students
+    </button>
+    <a id="feePaidStudDown" href="/media/feePaidStudents.csv" download></a>
+    <br />
+    <input
+      type="text"
+      id="myInput"
+      onkeyup="myFunction(0)"
+      placeholder="Search "
+    />
+    <select name="by" id="by">
+      <option value="2">by Name</option>
+      <option value="0">by ID</option>
+      <option value="1">by Family #</option>
+      <option value="4">by Class</option>
+    </select>
+    <div class="table-outer">
+      <table class="table">
+        <tr>
+          <th>ID</th>
+          <th>Family #</th>
+          <th>Name</th>
+          <th>F.Name</th>
+          <th>Class</th>
+          <th>Username</th>
+          <th>Fees</th>
+
+          <th>Contact #</th>
+          <th>Address</th>
+          <th>Admission</th>
+          <th>Status</th>
+        </tr>
+        {% for student in feePaidStd %}
+        <tr>
+          <td>EE{{ student.user.id }}</td>
+          <td>ED-{{ student.family }}</td>
+          <td>{{ student.user.first_name }}</td>
+          <td>{{ student.fname }}</td>
+          <td>{{ student.studentClass }}</td>
+          <td>{{ student.user.username }}</td>
+          <td>{{ student.fees }}</td>
+          <td>{{ student.contact }}</td>
+          <td>{{ student.address }}</td>
+          <td>{{ student.admissionDate }}</td>
+          <td>{{ student.status }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- Income -->
 <div class="defaulters inc">
   <div class="card">
-    <div class="card-up" style="background-color: #51ab55">
+    <div class="card-up" style="background-color: #e7403c">
       <i class="fas fa-wallet"></i>
     </div>
     <h2>Income</h2>
@@ -162,7 +230,7 @@
 <!-- Expense -->
 <div class="defaulters exp">
   <div class="card">
-    <div class="card-up" style="background-color: #e7403c">
+    <div class="card-up" style="background-color: #12b8cd">
       <i class="fas fa-receipt"></i>
     </div>
     <h2>Expense</h2>
@@ -199,30 +267,45 @@
 
 <script>
   let std = document.querySelector(".std");
+  let fee = document.querySelector(".feePaid");
   let inc = document.querySelector(".inc");
   let exp = document.querySelector(".exp");
 
+  fee.style.display = "none";
   inc.style.display = "none";
   exp.style.display = "none";
 
   const stdf = () => {
     std.style.display = "block";
+    fee.style.display = "none";
+    inc.style.display = "none";
+    exp.style.display = "none";
+  };
+  const feef = () => {
+    std.style.display = "none";
+    fee.style.display = "block";
     inc.style.display = "none";
     exp.style.display = "none";
   };
   const incf = () => {
     std.style.display = "none";
+    fee.style.display = "none";
     inc.style.display = "block";
     exp.style.display = "none";
   };
   const expf = () => {
     std.style.display = "none";
+    fee.style.display = "none";
     inc.style.display = "none";
     exp.style.display = "block";
   };
 
   function downloadStd() {
     d = document.querySelector("#studDown");
+    d.click();
+  }
+  function downloadFeePaidStdudents() {
+    d = document.querySelector("#feePaidStudDown");
     d.click();
   }
   function downloadInc() {
@@ -309,6 +392,17 @@
       dataType: "json",
       success: function (data) {
         downloadStd();
+      },
+    });
+  }
+
+  function downloadFeePaidStd() {
+    $.ajax({
+      url: "student-feePaid-download",
+      data: {},
+      dataType: "json",
+      success: function (data) {
+        downloadFeePaidStdudents();
       },
     });
   }

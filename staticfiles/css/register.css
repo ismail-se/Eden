@@ -78,6 +78,7 @@ form .custom-select input {
 form button {
   color: #ffffff;
   background-color: #000000;
+  border: none;
 }
 
 form .family {

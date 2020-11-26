@@ -79,6 +79,13 @@ class Teachers(models.Model):
     def __str__(self):
         return self.name
 
+
+# Incharge
+
+class Incharge(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    is_incharge = models.BooleanField()
+
 # Fees
 
 
@@ -158,6 +165,8 @@ class Income(models.Model):
 
 class Balance(models.Model):
     balance = models.IntegerField()
+    month = models.CharField(max_length=20, blank=True, null=True)
+    year = models.CharField(max_length=4, blank=True, null=True)
 
     def save(self):
         # count will have all of the objects from the Aboutus model
@@ -186,3 +195,13 @@ class Documents(models.Model):
     def delete(self, *args, **kwargs):
         self.document.delete()
         super().delete(*args, **kwargs)  
+
+
+class Test(models.Model):
+    student = models.ForeignKey(
+        Students, on_delete=models.CASCADE, default='')
+    subject = models.ForeignKey(
+        Subject, on_delete=models.CASCADE, default='')
+    obtainedMarks = models.IntegerField()
+    totalMarks = models.IntegerField()
+    date = models.DateField(blank=True, null=True)

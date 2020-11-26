@@ -96,12 +96,7 @@
             <p>Import Students from CSV</p></a
           >
         </li>
-        <li>
-          <a href="/documents"
-            ><i class="fas fa-file-upload fa-2x"></i>
-            <p>Import/Export DB</p></a
-          >
-        </li>
+        
 
       </ul>
     </aside>
@@ -111,9 +106,11 @@
       <header>
         <!-- Hamburger Menu -->
         <div class="hamburger">
+          {% if user.is_superuser %}
           <a href="javascript:void(0);" class="icon" onclick="sidebar()">
             <i class="fa fa-bars"></i>
           </a>
+          {% endif %}
           &nbsp;&nbsp;&nbsp;{% block header-text %}{% endblock header-text %}
         </div>
         <!-- User -->

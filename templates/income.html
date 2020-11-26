@@ -1,9 +1,10 @@
-{% extends 'base.html' %} 
-{% comment %} Title {% endcomment %} 
-{% block title%}Income{% endblock title %} 
-{% comment %} Header Text {% endcomment %} 
+{% extends 'base.html' %}
+<!-- Title -->
+{% block title%}Income{% endblock title %}
+<!-- Header Text -->
 {% block header-text %}Income{% endblock header-text %}
- {% comment %} CSS {% endcomment %} {% block css %}
+<!-- CSS -->
+{% block css %}
 <link rel="stylesheet" href="static/css/register.css" />
 <link rel="stylesheet" href="static/css/table.css" />
 <style>
@@ -11,22 +12,6 @@
     display: flex;
     margin: 2rem;
     flex-direction: row-reverse;
-  }
-  .clear,
-  .itoc,
-  .balanceClear {
-    background-color: rgb(241, 93, 34);
-    color: white;
-    font-size: 1.1rem;
-    padding: 0.7rem;
-    margin: 0.2rem;
-    border: none;
-  }
-  .itoc {
-    background-color: rgb(150, 185, 24);
-  }
-  .balanceClear {
-    background-color: rgb(48, 126, 243);
   }
 </style>
 {% endblock css %} {% comment %} Body {% endcomment %} {% block body %}
@@ -47,11 +32,6 @@
   <button type="submit">Add Income</button>
 </form>
 
-<div class="c">
-  <button class="itoc">Income to Balance</button>
-  <button class="balanceClear">Clear Balance</button>
-</div>
-
 <div class="defaulters">
   <div class="card">
     <div class="card-up">
@@ -60,7 +40,6 @@
     <h2>
       Total Income: <span data-target="{{ length }}" class="counter">0</span>
     </h2>
-    <h2>Balance: <span data-target="{{ balance }}" class="counter">0</span></h2>
     <br />
     <div class="table-outer">
       <table class="table">
@@ -92,32 +71,6 @@
 {% endblock body %} {% block js %}
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script>
-  
-
-  $(".balanceClear").click(function () {
-    
-      $.ajax({
-        url: "clear-balance",
-        dataType: "json",
-        success: function (data) {
-          location.reload(true);
-        },
-      });
-    
-  });
-
-  $(".itoc").click(function () {
-    
-      $.ajax({
-        url: "itoc",
-        dataType: "json",
-        success: function (data) {
-          location.reload(true);
-        },
-      });
-    
-  });
-
   function del(id) {
     $.ajax({
       url: "inc-delete",

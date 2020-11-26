@@ -1,0 +1,19 @@
+input {
+  padding: 0.2rem;
+  font-size: 1rem;
+}
+
+select {
+  padding: 0.2rem;
+  font-size: 1rem;
+}
+
+button {
+  background-color: #e7403c;
+  color: white;
+  padding: 1rem;
+  font-size: 1rem;
+  border: none;
+  margin-top: 1rem;
+}
+/*# sourceMappingURL=incharge.css.map */

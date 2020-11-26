@@ -7,6 +7,7 @@
 {% block css %}<link rel="stylesheet" href="static/css/students.css" />
 <link rel="stylesheet" href="static/css/table.css" />
 <link rel="stylesheet" href="static/css/search.css" />
+<link rel="stylesheet" href="static/css/sms.css" />
 <style>
   tr td:last-child,
   tr th:last-child {
@@ -25,6 +26,19 @@
       dataType: "json",
       success: function (data) {
         $("#" + id + month).html(data.val);
+      },
+    });
+  }
+  function send(id) {
+    $.ajax({
+      url: "send-sms-all",
+      data: {
+        text: $("#text").val(),
+      },
+      dataType: "json",
+      success: function (data) {
+        $(".res").html(data.res);
+        $(".res").css({ display: "flex" });
       },
     });
   }
@@ -119,6 +133,22 @@
         </tr>
         {% endfor %}
       </table>
+    </div>
+  </div>
+</div>
+<br />
+<div class="defaulters">
+  <div class="card">
+    <div class="card-up">
+      <i class="fas fa-money-bill"></i>
+    </div>
+    <h2>Send SMS</h2>
+    <br />
+
+    <div class="sms">
+      <textarea name="" id="text"></textarea>
+      <button onclick="send()">Send SMS</button>
+      <div class="res"></div>
     </div>
   </div>
 </div>

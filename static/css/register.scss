@@ -24,8 +24,8 @@ form {
     font-size: 1rem;
     width: 50rem;
   }
-  .checkbox{
-      width: 1rem;
+  .checkbox {
+    width: 1rem;
   }
 
   .class-subject {
@@ -47,6 +47,7 @@ form {
   button {
     color: #ffffff;
     background-color: #000000;
+    border: none;
   }
   .family {
     width: 50rem;
@@ -76,9 +77,9 @@ form {
   .family {
     width: 95% !important;
   }
-  .checkbox{
+  .checkbox {
     width: 1rem !important;
-}
+  }
   select,
   .input {
     width: 90% !important;

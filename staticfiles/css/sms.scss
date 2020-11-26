@@ -1,0 +1,34 @@
+.sms {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.sms textarea {
+  width: 100%;
+  height: 10rem;
+  font-size: 1rem;
+  resize: none;
+  padding: 0.5rem;
+}
+.sms button {
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  background-color: black;
+  color: white;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+.res {
+  margin-top: 1rem;
+  background-color: #51ab55;
+  color: white;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  display: none;
+}

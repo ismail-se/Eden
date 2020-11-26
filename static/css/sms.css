@@ -1,0 +1,53 @@
+.sms {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.sms textarea {
+  width: 100%;
+  height: 10rem;
+  font-size: 1rem;
+  resize: none;
+  padding: 0.5rem;
+}
+
+.sms button {
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  background-color: black;
+  color: white;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.res {
+  margin-top: 1rem;
+  background-color: #51ab55;
+  color: white;
+  padding: 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  width: 100%;
+  display: none;
+}
+/*# sourceMappingURL=sms.css.map */

@@ -103,3 +103,9 @@ main .cards .card:hover .card-up {
   right: 20px;
   top: -10px;
 }
+
+@media screen and (max-width: 600px) {
+  .download {
+    display: none;
+  }
+}

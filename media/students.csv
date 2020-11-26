@@ -1,2 +1,4 @@
-Id,Family#,Name,F.Name,Class,Username,Contact#,Address,Admission,November,October
-EE3,ED-2,Haseeb,Ahmed,Second Year (CS),haseeb,030000000,xyz,2020-11-04,Paid,Paid
+Id,Family#,Name,F.Name,Class,Username,Contact#,Address,Admission,October,January,December,November
+EE2,ED-2,Ahmed,Ali,First Year (CS),ahmed,,,2020-11-22,None,Unpaid,Unpaid,Paid
+EE3,ED-3,Abdul Rehman,Hamza,Second Year (CS),abdulrehman,,,2020-11-23,Paid,None,None,Paid
+EE4,ED-4,Haseeb,Ahmed,First Year (CS),haseeb,,,2020-11-23,None,None,None,Unpaid

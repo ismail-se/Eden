@@ -190,44 +190,36 @@
       </div>
     </div>
       <br>
-    <!-- <div class="defaulters">
-      <div class="card">
-        <div class="card-up">
-          <i class="fas fa-calendar-week  "></i>
-        </div>
-        <h2>Attendence</h2>
-        <br />
-        <div class="cal">
-          
-          <select name="class" id="month" onchange="searchMonth()">
-            <option value="">All Months</option>
-              {% for m in mon %}
-              <option value="{{m}}">{{m}}</option>
+    
+      <div class="defaulters">
+        <div class="card">
+          <div class="card-up">
+            <i class="fas fa-user-graduate"></i>
+          </div>
+          <h2>Test Score</h2>
+          <br />
+    
+          <div class="table-outer">
+            <table class="table">
+              <tr class="fixed-header">
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Obtained Marks</th>
+                <th>Total Marks</th>
+              </tr>
+              {% for t in test %}
+              <tr>
+                <td>{{t.subject}}</td>
+                <td>{{t.date}}</td>
+                <td>{{t.obtainedMarks}}</td>
+                <td>{{t.totalMarks}}</td>    
+              </tr>
               {% endfor %}
-          </select>
-        </div>
-        <div class="table-outer">
-          <table class="table">
-            <tr class="fixed-header">
-              <th>ID</th>
-              <th>Name</th>
-              <th>Class</th>
-              {% for a in attendenceDate %} 
-              <th>{{a}}</th>
-              {% endfor %}
-            </tr>
-            {% for key, value in attendence.items %}
-            <tr>
-              <td>EE{{key}}</td>
-              {% for k, v in value.items %}
-              <td>{{v}}</td>
-              {% endfor %}
-            </tr>
-            {% endfor %}
-          </table>
+            </table>
+          </div>
         </div>
       </div>
-    </div> -->
+
       <br>
    
 
