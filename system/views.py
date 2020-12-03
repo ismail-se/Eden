@@ -760,16 +760,19 @@ def addAttendence(request):
         stdClass = Classes.objects.get(pk=classes)
         std = Students.objects.filter(studentClass=stdClass, status="Active")
         date = request.POST.get('date')
-
+        monthNo = date[5:7]
+        months = [0, "January", "Febraury", "March", "April", "May", "June", "July", "August", "September", "October", "Novemer", "December"]
+        mon = months[int(monthNo)]
+        year = date[:4]
         for s in std:
             try:
-                att = Attendense.objects.get(student=s, date=date)
+                att = Attendense.objects.get(student=s, date=date, month=mon, year=year)
                 attendence = request.POST.get(str(s.user.id))
                 att.attendence=attendence
                 att.save()
             except:
                 attendence = request.POST.get(str(s.user.id))
-                att = Attendense(student=s, date=date, attendence=attendence)
+                att = Attendense(student=s, date=date, attendence=attendence, month=mon, year=year)
                 att.save()
 
     stdClasses = Classes.objects.all()
@@ -1097,6 +1100,10 @@ def subjectDelete(request):
 def classDelete(request):
     id = request.GET.get('id', None)
     b = Classes.objects.get(pk=id)
+    std = Students.objects.filter(studentClass=b)
+    for s in std:
+        user = s.user
+        user.delete()
     b.delete()
     data = {}
     return JsonResponse(data)
@@ -1237,9 +1244,11 @@ def studentLogin(request):
 def studentDashboard(request):
     if request.user.is_anonymous:
         return redirect("/")
-
+    x = datetime.datetime.now()
+    month = x.strftime("%B")
+    year = x.strftime("%Y")
     students = Students.objects.get(user = request.user)
-    attendence = Attendense.objects.filter(student=students)
+    attendence = Attendense.objects.filter(student=students, month=month, year=year)
     att = {}
     attDate = []
     monthNo = []
@@ -1256,8 +1265,7 @@ def studentDashboard(request):
             mon.append(months[m])
      
     print(attendence)
-    x = datetime.datetime.now()
-    month = x.strftime("%B")
+    
     fee = StudentFees.objects.filter(students=students)
     docs = Documents.objects.all()
 

@@ -128,6 +128,8 @@ class Attendense(models.Model):
     attendence = models.CharField(
         max_length=7, choices=ATTENDENCE, default="Present")
     date = models.DateField()
+    month = models.CharField(max_length=20, blank=True, null=True)
+    year = models.CharField(max_length=4, blank=True, null=True)
 
     class Meta:
         db_table = 'attendence'

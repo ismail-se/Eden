@@ -8,38 +8,36 @@
 <!-- CSS -->
 {% block css %}
 <style>
-    .main{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    input {
-        border: 2px solid black;
-        padding: 10px;
-    }
-    label{
-        display: none;
-    }
-    button{
-        margin-top: 2rem;
-        padding: 0.8rem 2rem;
-        border: none;
-        background-color: #51ab55;
-        font-size: 1.1rem;
-        color: white;
-    }
+  .main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  input {
+    border: 2px solid black;
+    padding: 10px;
+  }
+  label {
+    display: none;
+  }
+  button {
+    margin-top: 2rem;
+    padding: 0.8rem 2rem;
+    border: none;
+    background-color: #51ab55;
+    font-size: 1.1rem;
+    color: white;
+  }
 </style>
 {% endblock css %}
 
 <!-- Body -->
 {% block body %}
 <div class="main">
-    <form action="/upload-header" method="POST" enctype= "multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <p>(Image size must be 1240px x 240px)</p>
-        <button type="submit">Upload</button>
-        
-    </form>
+  <form action="/upload-header" method="POST" enctype="multipart/form-data">
+    {% csrf_token %} {{ form.as_p }}
+    <p>(Image size must be 178mm x 43mm)</p>
+    <button type="submit">Upload</button>
+  </form>
 </div>
 {% endblock body %}

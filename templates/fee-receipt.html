@@ -42,7 +42,7 @@
   </script>
   <body>
     {% for n in name %}
-    <div class="main">
+    <!-- <div class="main" class="page">
       <img src="/media/{{ header.img }}" alt="" />
       <div class="data">
         <div style="position: absolute; left: 200px">{{date}}</div>
@@ -160,7 +160,77 @@
           <div>Signature __________________________</div>
         </div>
       </div>
-    </div>
+    </div> -->
+    <main>
+      <img class="headimg" src="/media/{{ header.img }}" alt="" />
+      <img class="bodyimg" src="/static/img/feer.jpg" alt="" />
+      <div class="text">
+        <div style="position: absolute; left: 200px">{{date}}</div>
+        <div style="position: absolute; top: 395px; left: 200px">{{date}}</div>
+        <div
+          class="{{n}}name"
+          style="position: absolute; top: 35px; left: 200px"
+        >
+          <script>
+            getVal("name");
+          </script>
+        </div>
+        <div
+          class="{{n}}name"
+          style="position: absolute; top: 430px; left: 200px"
+        >
+          <script>
+            getVal("name");
+          </script>
+        </div>
+        <div
+          class="{{n}}class"
+          style="position: absolute; top: 70px; left: 200px"
+        >
+          {{class}}
+        </div>
+        <div
+          class="{{n}}class"
+          style="position: absolute; top: 465px; left: 200px"
+        >
+          {{class}}
+        </div>
+        <div style="position: absolute; top: 190px; left: 130px">
+          {% for i in month %}{{i}} &nbsp;&nbsp; {% endfor %}
+        </div>
+        <div style="position: absolute; top: 590px; left: 130px">
+          {% for i in month %}{{i}} &nbsp;&nbsp; {% endfor %}
+        </div>
+        <div style="position: absolute; top: 250px; left: 130px">
+          {{selectFee}}
+        </div>
+        <div style="position: absolute; top: 645px; left: 130px">
+          {{selectFee}}
+        </div>
+        <div style="position: absolute; top: 250px; left: 500px">
+          {{anotherFee}}
+        </div>
+        <div style="position: absolute; top: 645px; left: 500px">
+          {{anotherFee}}
+        </div>
+        <span
+          class="{{n}}fees"
+          style="position: absolute; top: 190px; left: 500px"
+        ></span>
+        <span
+          class="{{n}}fees"
+          style="position: absolute; top: 590px; left: 500px"
+        ></span>
+        <span
+          class="{{n}}total"
+          style="position: absolute; top: 290px; left: 500px"
+        ></span>
+        <span
+          class="{{n}}total"
+          style="position: absolute; top: 685px; left: 500px"
+        ></span>
+      </div>
+    </main>
     {% endfor %}
   </body>
 </html>
